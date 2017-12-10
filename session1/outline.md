@@ -91,3 +91,73 @@ process = button("gate") : pm.djembe(60,0.5,0.5,1) <: dm.freeverb_demo;
 * Try to run your Faust code again and see what happens.
 * You probably noticed that there are new elements in the user interface. This
 is because these elements are part of the definition of `dm.freeverb_demo`.
+* Now, let's automate the performance by automatically triggering the 
+djembe using the `ba.pulsen` circuit. Once again, you can check the 
+documentation of `ba.pulsen` by placing the text cursor on it and pressing 
+`ctrl + d`. This circuit has 2 inputs, the first one is size of the impulse as
+a number of samples (in our case just one sample), the second one is the period
+of impulses in samples. Thus, if the period is 44100 and your sampling rate is
+also 44100 Hz, then one pulse will be generated every second:
+```
+import("stdfaust.lib");
+process = button("gate")*ba.pulsen(1,4410*2) : pm.djembe(60,0.5,0.5,1) <: dm.freeverb_demo;
+```
+* As an exercise, try to add another impulse generator running at a different
+period to create some polyrythm effect. You can now pause the video and try to
+do this.
+* One solution to the previous exercise could be:
+```
+import("stdfaust.lib");
+process = button("gate")*(ba.pulsen(1,4410*2) + ba.pulsen(1,4410*1.3)) : pm.djembe(60,0.5,0.5,1) <: dm.freeverb_demo;
+``` 
+* Let's now change the name of the current Faust program by calling it 
+`djembe.dsp` in the drop zone.
+* This can be exported as a ready-to-use Android application by selecting the
+Android platform and the Android target in the export tool of the online 
+editor. -> do it!
+* Once the online compiler is done, it will display a QR code pointing at the
+application package. This might take a while, be patient, have a cup of Lipton
+tea or a shot whiskey.  
+* If you're an unfortunate iOS device owner, the online compiler will only be
+able to generate an XCode project that you'll have to compile directly on your
+computer. Note that the same can be done for Android and will significantly 
+reduce the duration of the online compilation process.
+
+## Polyphonic MIDI Synthesizer
+
+```
+import("stdfaust.lib");
+gain = hslider("gain",0.5,0,1,0.01);
+process = gain*os.sawtooth(440);
+```
+
+```
+import("stdfaust.lib");
+gain = hslider("gain",0.5,0,1,0.01);
+process = gain,os.sawtooth(440) : *;
+```
+
+```
+import("stdfaust.lib");
+gain = an.amp_follower_ar(0.02,0.02);
+process = gain,os.sawtooth(440) : *;
+```
+ 
+```
+import("stdfaust.lib");
+
+freq = hslider("freq",440,50,1000,0.01);
+gain = hslider("gain",0.5,0,1,0.01);
+gate = button("gate");
+
+organ = timbre(freq)*envelope
+with{
+  timbre(f) = (os.osc(f)*0.75 + os.osc(f*2)*0.5 + os.osc(f*3)*0.25)/3;
+  envelope = gate : en.adsr(0.01,0.01,90,0.1)*gain;
+};
+
+process = organ;
+```
+
+
+
