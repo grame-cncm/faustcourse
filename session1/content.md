@@ -16,7 +16,7 @@ instruments, audio effects, etc.
 * Faust is used on stage for concerts and artistic productions, in education 
 and research, in open source projects as well as in commercial applications.
 * You don't have to be a computer scientist or a professional developer to
-program with Faust, like Marcel Proust.
+program with Faust.
 * In this course we will teach you how to use Faust to design your own
 electronic musical instruments and audio effects. After this course, you will
 be able to write your own VST and Audio Unit plug-ins, make Android and iOS
@@ -26,7 +26,7 @@ SuperCollider, CSOUND, ChucK and more.
 simpler and intuitive to learn.
 * While Faust comes as a command line compiler in its most primitive form, it
 can be programmed through an online tool that doesn't require any installation.
-Thus, Faust code can be written and executed directly in a web browser.
+Thus, Faust code can be written and executed directly in a web browser!
 * In the next section, we'll show you how to use the online editor that will 
 be used as the main development platform throughout this course.
 * The Faust online editor makes use of cutting edge web technologies such as 
@@ -68,8 +68,8 @@ process = button("gate") : pm.djembe(60,0.5,0.5,1);
 ``` 
 
 * Display the code above
-* A Faust program is a series of statements that are all terminated by a `;``
-* In the current example, there are 2 statement
+* A Faust program is a series of statements that are all terminated by a `;`
+* In the current example, there are 2 statements
 * The first one imports all the standard libraries. A library is a collection
 of predefined circuits written in Faust. These collections are organized in a
 hierarchy of environments that can be accessed using prefixes. For example, in 
@@ -82,7 +82,7 @@ an output signal which is zero when not pressed and which is 1 while pressed.
 * The documentation of any pre-defined element can be visualized by placing the
 text cursor on it and pressing `ctrl + d` or the corresponding icon in the left
 menu.   
-In contrast, `pm.djembe` is a user defined circuit that is part of the standard
+In contrast, `pm.djembe` is a user-defined circuit that is part of the standard
 Faust libraries. In order to use it, `stdfaust.lib` must be imported.  
 * The `djembe` circuit has 5 input signals. Their role can be 
 known by looking at the online documentation. -> do it!
@@ -134,7 +134,7 @@ is because these elements are part of the definition of `dm.freeverb_demo`.
 * Now, let's automate the performance by automatically triggering the 
 djembe using the `ba.pulsen` circuit. Once again, you can check the 
 documentation of `ba.pulsen` by placing the text cursor on it and pressing 
-`ctrl + d`. This circuit has 2 inputs, the first one is size of the impulse as
+`ctrl + d`. This circuit has 2 inputs, the first one is the size of the impulse as
 a number of samples (in our case just one sample), the second one is the period
 of impulses in samples. Thus, if the period is 44100 and your sampling rate is
 also 44100 Hz, then one pulse will be generated every second:
@@ -232,7 +232,7 @@ synthesizer.
 * The first step consists of implementing an additive synthesizer which will
 determine the timbre of the organ. 
 * A simple additive synthesizer can be implemented by adding three (it could 
-also be more) sine wave oscillators together. Timbre will depend upon the 
+also be more) sine wave oscillators together. Timbre will be determined by the 
 relationship between the parameters of the various harmonics implemented by
 each oscillator.
 
@@ -283,8 +283,8 @@ timbre(f) = os.osc(f)*0.5 + os.osc(f*2)*0.25 + os.osc(f*3)*0.125;
 process = gain*gate*timbre(freq);
 ```
 
-* We can now test the program in 2 settings. First, without polyphony just by
-running as such. -> do it
+* We can now test the program in 2 different modes. First, without polyphony 
+just by running as such. -> do it
 * The next step will only work in Google Chrome as MIDI support is only 
 available in this web browser (e.g., if you're using Firefox, it will not 
 work).  
@@ -306,7 +306,7 @@ button to an ADSR envelope generator. ADSR is a circuit with 5 inputs:
     * sustain level as a percentage of the maximum gain
     * duration of the release in seconds
     * the trigger signal (the attack begins when this rises to 1 and the
-      release is triggers when this goes down to 0) 
+      release is triggered when this goes down to 0) 
 
 ```
 import("stdfaust.lib");
