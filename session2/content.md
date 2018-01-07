@@ -7,13 +7,13 @@ learn both the _syntax_ and the _semantics_ of Faust.
 
 ## Lesson 1: Learning Faust
 
-In order to become a Faust pro, the following elements must be learned:
+In order to really master Faust, the following elements must be learned:
 
 [slide 1 TODO]
 
-* Primitives
-* Syntax
-* Semantics
+* Primitives: the available buildin blocks so to speak
+* Syntax: how to assemble this primitives to create a program
+* Semantics: the meaning of the resulting program, what it does
 * Link between a Faust code, its graphical representation as a block-diagram, 
 and its mathematical semantics as a function on signals
 * Libraries (lesson TODO)
@@ -75,7 +75,7 @@ You can now pause the video!
 ## Lesson 2: Signals and Time Models
 
 Informally, a signal is a value that changes over time, for example the 
-variation of air pressure at a particular point. In other words, a signal is a 
+variation of air pressure producing a sound. In other words, a signal is a 
 function transforming a time input into a value output. This value is
 also called a sample. 
 
@@ -103,8 +103,8 @@ Numbers and standard mathematical operations on numbers all have an equivalent
 on signals in Faust. For example, we already saw the `+` and the `abs` 
 operations in lesson 1. 
 
-Numbers in Faust can be considered as elementary circuits with no input and one
-output. In other words, a number in Faust produces an output signal whose 
+Numbers in Faust are signal generators, elementary circuits with no input and
+one output. In other words, a number in Faust produces an output signal whose 
 samples are all equal to that number starting from time 0.
 
 [slide 9: see slide 20 in FARM TODO] 
@@ -163,7 +163,7 @@ tangent, arc tangent on 2 signals, cosine, sine, and tangent.
 
 ### Other Math Operations
 
-Other mathematical operations are available as primitives in Faust as sown on
+Other mathematical operations are available as primitives in Faust as shown on
 the screen.
 
 [slide 14: see slide 26 in FARM TODO]
