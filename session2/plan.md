@@ -9,6 +9,9 @@
 
 ## L2: signals and time model
 
+## L9: semantics
+- translation into a language tht you already know
+
 ## L3: Faust Primitives (timeless)
 - numbers: int and float
 - arithmetic
@@ -49,9 +52,6 @@
 - environments, library, components
 
 ## L8: Coding a block-diagram
-
-## L9: semantics
-- translation into a language tht you already know
 
 # Assignements
 - crossing cables
