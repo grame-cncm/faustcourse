@@ -178,8 +178,8 @@ The semantics of greater than comparison is illustrated in the following slide:
 [Slide 12: Comparison Semantics]
 
 Here is a small program that compares the value of a sine oscillator with a threshold
-controlled by a slider. You will ear the resulting signal which is 1 when the condition is 
-true and 0 otherwise
+between 0 and 1, controlled by a slider. You will ear the resulting signal which is 1 
+when the condition is true and 0 otherwise
 
 ```
 import("stdfaust.lib");
