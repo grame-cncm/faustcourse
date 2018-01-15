@@ -109,6 +109,12 @@ There are two kind of sliders:
 - hslider is an horizontal slider
 - vslider is a vertical slider
 
+You can somehow listen to the sound produced by a slider:
+
+```
+process = vslider("level", 0, -1, 1, 0.01);
+```
+
 
 
 ### Arithmetic
@@ -175,7 +181,7 @@ or equal, greater, greater or equal, equal, and different.
 
 The semantics of greater than comparison is illustrated in the following slide:
 
-[Slide 12: Comparison Semantics]
+[Slide 19: Comparison Semantics]
 
 Here is a small program that compares the value of a sine oscillator with a threshold
 between 0 and 1, controlled by a slider. You will ear the resulting signal which is 1 
@@ -198,7 +204,7 @@ silence.
 As for arithmetic and comparison operations, most standard bitwise operations 
 on integers are available in Faust. 
 
-[Slide 13: Bitwise operations]
+[Slide 20: Bitwise operations]
 
 The `&`, `|`, and `xor` are typically used to combine the result of comparison
 operations. The left and right shift operations are less commonly used but 
@@ -210,7 +216,7 @@ samples.
 Most standard trigonometric operations can be carried out in Faust as shown on 
 the screen.
 
-[Slide 14: Trigonometric functions]
+[Slide 21: Trigonometric functions]
 
 For instance, we can take the arc cosine of a signal, its arc sine, arc
 tangent, arc tangent on 2 signals, cosine, sine, and tangent. 
@@ -219,7 +225,7 @@ tangent, arc tangent on 2 signals, cosine, sine, and tangent.
 
 Bla bla
 
-[Slide 15: Log and Exponential]
+[Slide 22: Log and Exponential]
 
 Bla bla
 
@@ -228,14 +234,14 @@ Bla bla
 Other mathematical operations are available as primitives in Faust as shown on
 the screen.
 
-[Slide 16: Min, Max and other functions]
+[Slide 23: Min, Max and other functions]
 
 Let's take a look at 2 very useful primitives: min and max. Min compares 2
 input signals and always output the sample with the smallest value. Inversely
 max compares 2 input signals and always output the sample with the greatest
 value. 
 
-[Slide 17: Max and Min semantics]
+[Slide 24: Max and Min semantics]
 
 As an example, a simple dirty distortion effect can be implemented using these
 2 primitives and a multiplication. Let's try to run it in the Faust online editor. 
