@@ -16,7 +16,7 @@ of code or even just a few characters in some cases.
 
 In this lesson, we'll start with the one zero filter (or feedforward filter)
 which can be implemented simply by adding a signal to its delayed version by
-on sample. 
+one sample. 
 
 [show slide 1]
 
@@ -66,7 +66,7 @@ oneZero = vgroup("One Zero Filter",_ <: (_' : *(b1)),_ :> _)
 with{
 	b1 = hslider("b1",0,-1,1,0.01);
 };
-process = noise : oneZero;
+process = no.noise : oneZero;
 ```
 
 We can connect a white noise generator to our `oneZero` circuit to see if it
@@ -122,7 +122,9 @@ We can see that the tilde takes care of splitting the signal and of creating
 the feedback. Any expression on the right hand side of tilde is placed in the 
 feedback signal. The feedback signal connects to the first available input it 
 finds in the circuit which is one of the 2 inputs of the add primitive. The 
-other input of the add becomes an input of the `fComb` circuit. 
+other input of the add becomes an input of the `fComb` circuit. As Yann 
+explained in session 2, you should keep in mind that an implicit one sample
+delay is introduced when using the tilde.
 
 We can also assign user interface elements to control the parameters of our 
 filter as we did for previous examples.
@@ -131,7 +133,7 @@ filter as we did for previous examples.
 
 ```
 import("stdfaust.lib");
-fComb = vgroup("Feedback Comb Filter",+~(@(delLength) : *(feedback)))
+fComb = vgroup("Feedback Comb Filter",+~(@(delLength-1) : *(feedback)))
 with{
   delLength = hslider("[0]Delay Length",1,1,100,1);
   feedback = hslider("[1]Feedback",0,0,1,0.01);
@@ -146,12 +148,12 @@ comb filter plugin!
 
 ```
 import("stdfaust.lib");
-fComb = vgroup("Feedback Comb Filter",+~(@(delLength) : *(feedback)))
+fComb = vgroup("Feedback Comb Filter",+~(@(delLength-1) : *(feedback)))
 with{
   delLength = hslider("[0]Delay Length",1,1,100,1);
   feedback = hslider("[1]Feedback",0,0,1,0.01);
 };
-process = noise : fComb;
+process = no.noise : fComb;
 ```
 
 Let's now feed some white noise to our `fComb` circuit to see if it works. 
@@ -159,9 +161,26 @@ Let's now feed some white noise to our `fComb` circuit to see if it works.
 [show screen capture: run the code and plot the spectrum]
 
 Note that `fComb` could be easily used to implement a flanger effect by 
-modulating the length of our delay using an LFO. 
+modulating the length of our delay using an LFO. As an exercise, you should
+try to do this now.
 
-[TODO: may be this could be an exercise]
+[show screen capture: code]
+
+```
+import("stdfaust.lib");
+fComb = vgroup("Feedback Comb Filter",+~(de.fdelay4(maxDelay,delLength) : *(feedback)))
+with{
+  maxDelay = 10;
+  freq = hslider("Frequency",1,0.1,10,0.01);
+  feedback = hslider("[1]Feedback",0,0,1,0.01);
+  delLength = (maxDelay-1)*(os.osc(freq)*0.5+0.5);
+};
+process = no.noise : fComb;
+```
+
+The delay is now oscillating between 1 and `maxDelay` at a frequency defined
+by the `Frequency` slider. Note that we're now using a fractional delay that
+is available in the `delays.lib` library and built on top of `@`.
 
 Once again, if you're curious about the theory behind this type of filter and 
 how they work, we recommend you to check the corresponding section in Julius
@@ -183,7 +202,7 @@ in Faust by calling the `ma.SR` variable which is declared in `maths.lib`.
 
 ```
 import("stdfaust.lib");
-echo = vgroup("Echo",+~(@(delLength) : *(feedback)))
+echo = vgroup("Echo",+~(@(delLength-1) : *(feedback)))
 with{
   duration = hslider("[0]Duration",500,1,1000,1)*0.001;
   feedback = hslider("[1]Feedback",0.5,0,1,0.01);
@@ -197,12 +216,12 @@ We can reuse the code from the previous lesson and rename the `fComb` circuit
 value will be set in milliseconds. To convert this signal in seconds (which will
 be needed for the next step), we can multiply it by 0.001. The signal produced 
 by this slider and converted in seconds can be used to compute the length of 
-our delay line by  multiplying by the sampling rate.
+our delay line by multiplying it by the sampling rate.
 
 We just implemented an echo effect, try to run have fun with it! Be careful
 with feedback!
 
-## Lesson 4: Karplus
+## Lesson 4: Karplus-Strong
 
 In the two previous lessons, we used the same circuit to implement a feedback
 comb filter and an echo effect. In this lesson, we're going to use this circuit
@@ -226,7 +245,7 @@ lesson 1 and rename it `string`.
 
 ```
 import("stdfaust.lib");
-string = vgroup("String",+~(@(delLength) : *(feedback)))
+string = vgroup("String",+~(@(delLength-1) : *(feedback)))
 with{
   delLength = hslider("[0]Delay Length",1,1,100,1);
   feedback = hslider("[1]Feedback",0,0,1,0.01);
@@ -242,7 +261,7 @@ implementing and therefore its pitch. So we first want to replace our
 
 ```
 import("stdfaust.lib");
-string = vgroup("String",+~(@(delLength) : *(damping)))
+string = vgroup("String",+~(@(delLength-1) : *(damping)))
 with{
   freq = hslider("[0]freq",440,50,5000,1);
   damping = hslider("[1]Damping",0.99,0,1,0.01);
@@ -266,7 +285,7 @@ impulse when a button is pressed.
 
 ```
 import("stdfaust.lib");
-string = vgroup("String",+~(@(delLength) : *(damping)))
+string = vgroup("String",+~(@(delLength-1) : *(damping)))
 with{
   freq = hslider("[0]freq",440,50,5000,1);
   damping = hslider("[1]Damping",0.99,0,1,0.01);
@@ -296,7 +315,7 @@ these 2 elements, higher frequencies are damped faster than lower ones.
 
 ```
 import("stdfaust.lib");
-string = vgroup("String",+~(@(delLength) : dispersionFilter : *(damping)))
+string = vgroup("String",+~(@(delLength-1) : dispersionFilter : *(damping)))
 with{
   freq = hslider("[0]freq",440,50,5000,1);
   damping = hslider("[1]Damping",0.99,0,1,0.01);
@@ -331,8 +350,8 @@ easily solved by using fractional delay which will allow for the use of
 decimal values for our delay length. 
 
 `de.fdelay4` implements a fractional delay
-using 4th order allpass interpolation. It is ideal for what we're trying to
-achieve here. fractional delay is a pretty hairy topic but if you're interested
+using 4th order Lagrange interpolation. It is ideal for what we're trying to
+achieve here. Fractional delay is a pretty hairy topic but if you're interested
 to learn more about the theory behind it, you can check the related section in
 Julius Smith' online book: 
 <https://ccrma.stanford.edu/~jos/pasp/Fractional_Delay_Filtering_Linear.html>.
@@ -341,7 +360,7 @@ Julius Smith' online book:
 
 ```
 import("stdfaust.lib");
-string = hgroup("String[0]",+~(de.fdelay4(maxDelLength,delLength) : dispersionFilter : *(damping)))
+string = hgroup("String[0]",+~(de.fdelay4(maxDelLength,delLength-1) : dispersionFilter : *(damping)))
 with{
   freq = hslider("[0]freq",440,50,5000,1);
   damping = hslider("[1]Damping[style:knob]",0.99,0,1,0.01);
@@ -358,11 +377,11 @@ process = vgroup("Karplus Strong",pluck : string);
 ```
 
 The `de.fdelay4` circuit requires to set a maximum delay length as a number of
-samples. This number should be a power of 2. Since the lowest frequency of our
-string is set to be 50Hz, the maximum length of the delay at a sampling rate of
-48KHz will be 960, therefore the closest power of 2 above this value is 1024.
+samples. Since the lowest frequency of our string is set to be 50Hz, the 
+maximum length of the delay at a sampling rate of 48KHz will be 960, so the 
+maximum delay length should be at least this value. 
 
-Note the we made a a few cosmetic modifications to the interface of our 
+Note the we made a few cosmetic modifications to the interface of our 
 instrument to make it look better.   
 
 In case you're interested, the Faust distribution hosts a library to implement 
@@ -377,9 +396,9 @@ In this final lesson, we're going to use a wavetable to implement a highly
 simplified form of granular synthesis. It will demonstrates the use of 
 read/write tables in Faust while providing a fun sound synthesizer.
 
-As seen in session 2 (TODO: make sure), the `rwtable` primitive implements a
+As seen in session 2, the `rwtable` primitive implements a
 table that can be read and written in real-time. It has 5 inputs (TODO: may be
-link to doc): the table size, the value of the initial sample, the read index
+link to doc): the table size, the value of the initial sample, the write index
 (which should be an integer), the main signal input, and the read index (which
 should also be an integer). 
 
@@ -404,7 +423,8 @@ process = looper;
 
 We want the maximum length of the table to be around 1 second so we're going
 to set it to 48000. We also want the table to not output any signal when the
-program start so we're going to set the second input of our `rwtable` to 0.
+program start so we're going to set the second input which is the 
+initialization signal of our `rwtable`.
 
 We want the write index to be always 0 when the record button is not pressed
 and start counting one by one when the button is pressed. 
@@ -418,7 +438,7 @@ For the read index, we essentially want to implement a phasor whose value will
 range between 0 and the table size. Also, since we want to be able to control
 the read speed, we should be able to change the frequency of this phasor by 
 modifying its increment value. This phasor should constantly read through the
-table right from when the program start. 
+table right from when the program starts. 
 
 Note that the read and write indices are casted to int to satisfy the 
 requirements of the `rwtable`. Try to run it and have fun!
@@ -451,7 +471,7 @@ process = polyLooper : dm.zita_light;
 
 We don't want each version of the looper to be the same. Instead, we want each
 looper to have a slightly different read speed so we're adding a `detune`
-parameter to our `looper` circuit that will be used as ratio to control the
+parameter to our `looper` circuit that will be used as a ratio to control the
 read speed,
 
 We created a `polyLooper` circuit putting several `looper` in
@@ -472,4 +492,4 @@ Have fun!
 
 ## Lesson 6: Quick Tour of the Libraries
 
-TODO
+Done on the spot. 

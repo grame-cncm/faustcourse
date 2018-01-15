@@ -6,8 +6,8 @@ into audio plug-ins, smartphone apps, and more (we'll give you more details on
 how to do this type of things in session 5). In most cases, we'll implement
 things from scratch. The goal here is not to teach you sound processing
 or synthesis, but really to show you how existing techniques can be implemented
-in Faust. So even though we might refresh your memory in some cases, we'll 
-assume that you already have some background in DSP in general. 
+in Faust. But don't worry, if you don't have any background in digital signal
+processing, you'll be able to follow the examples. 
 
 We'll also spend a fair amount of time designing polished interfaces. We'll start 
 with simple sound synthesis techniques such as waveshape, amplitude modulation,
@@ -15,8 +15,8 @@ frequency modulation, and subtractive synthesis. Other more advanced techniques
 will be covered in session 4.
 
 As for the previous sessions, all the code we're going to write here is
-optimized to work in the Faust online editor (<https://faust.grame.fr/editor>)
-so we'll use it as our main development platform.
+optimized to work in the Faust online editor so we'll use it as our main 
+development platform.
 
 ## Lesson 1: Waveshape Synthesis
 
@@ -27,8 +27,9 @@ sine, triangle, square, and sawtooth to generate sound.
 Waveshape synthesis (which might also be called wavetable synthesis under
 certain conditions) is probably the easiest way to generate different kinds
 of sounds on a computer. It consists of generating a sound by periodically 
-repeating a single-cycle waveform. (TODO: link to session 2) The speed at 
-which the waveform is repeated determines its period and hence its frequency. 
+repeating a single-cycle waveform. Yann already showed you how to do this in
+session 2. The speed at which the waveform is repeated determines its period 
+and hence its frequency. 
 
 While any waveform can be used, standard waveforms inherited from analog 
 synthesis are commonly used in the digital world. Most of you probably already 
@@ -63,17 +64,22 @@ prevent aliasing when generating this type of sound, the main drawback is that
 these oscillators will probably not work properly if they are used under a 
 certain frequency. For instance, except for `os.osc` which is naturally band
 limited, `os.square`, `os.sawtooth`, `os.triangle` could not be used as Low
-Frequency Oscillators (LFO). We'll get back to this later in this session 
-when we use an LFO to modulate the cutoff frequency of the filter of a 
-subtractive synthesizer. Note that a list of the most standards oscillators
-on `oscillators.lib` is available in the libraries documentation.
+Frequency Oscillators (LFO). This is due to the implementation of the 
+interpolation algorithm used to prevent aliasing. We'll get back to this later 
+in this session when we use an LFO to modulate the cutoff frequency of the 
+filter of a subtractive synthesizer. Note that the oscillator that you 
+implemented with Yann in session 2 is not band-limited and can be used at any 
+frequency but it will have aliasing.
+
+A list of the most standard oscillators in `oscillators.lib` is available in 
+the libraries documentation.
 
 [display URL: <http://faust.grame.fr/library.html#oscillatorssound-generators>]
 
 First, let's create a `waveGenerator` circuit where our oscillators are placed
 in parallel and selected using the `selectn` circuit from `basics.lib`. Note
 that `selectn` is a generalized version of the `select2` primitive studied in
-session 2 (TODO: make sure it was actually studied). 
+session 2. 
 
 [show screen capture]
 
@@ -104,7 +110,7 @@ of envelope generators and the most famous and broadly used one is the ADSR.
 
 [show slide 2]
 
-Just as a quick refresher, ADSR envelope generators have 4 phases the attack, 
+Just as a quick refresher, ADSR envelope generators have 4 phases: the attack, 
 the decay, the sustain, and the release. That's why they're called ADSR! 
 
 The envelope library of Faust called `envelopes.lib` contains a circuit 
@@ -179,7 +185,7 @@ process = waveGenerator*envelope;
 
 At this point, if you're using Google Chrome as we suggested (remember that as
 of today, only this browser is compatible with MIDI) and activate the MIDI
-polyphonic mode, you're Faust code should become controllable by an virtual
+polyphonic mode, you're Faust code should become controllable by a virtual
 or physical MIDI keyboard connected to your computer! 
 
 [do it!]
@@ -215,11 +221,10 @@ metadata in the name of the user interface elements (TODO: might want a link to
 Placing knobs horizontally helps save space in the interface so we created a 
 `Envelope` horizontal group encapsulating the various elements of the envelope 
 generator. We also numbered the user interface elements within this group to 
-make sure they appear in the right order in the interface. We did the same for 
-our wave generator.
+make sure that they appear in the right order in the interface. We did the same 
+for our wave generator.
 
-Run the code and try to control with a MIDI keyboard as we did in previous
-sessions.
+Run the code and try to control it with a MIDI keyboard.
 
 [do it!]
 
@@ -255,6 +260,9 @@ user interface elements used here are smoothed which means that they might
 generate clicks when they are moved. As shown in session 2, this problem can
 always be solved by using `si.smoo`. 
 
+We recommend you to save the code that you just wrote in a file on your
+computer as we'll reuse some of it in the next lessons.
+
 ## Lesson 2: Amplitude Modulation Synthesis
 
 In this lesson, we're going to implement a simple polyphonic MIDI synthesizer
@@ -267,7 +275,7 @@ the modulator is implemented with a sine wave oscillator but other types of
 oscillators can be used. 
 
 Amplitude modulation can be used as an audio effect when processing sounds from
-the "real-world" but also as a sounds synthesis techniques when the carrier is
+the "real-world" but also as a sound synthesis technique when the carrier is
 also generated by an oscillator.
 
 In this lesson, we'll study this special case of amplitude modulation where
@@ -305,7 +313,7 @@ Indeed, the range of the modulator is currently -1 to 1, which means that the
 gain of the carrier goes from 0 to 1, then 1 to 0, then 0 to -1, and finally 
 -1 to 0 at every period. In other words, the current modulation frequency is 
 doubled and a phase inversion happens twice per period. Instead, we want the 
-modulator to go from 0 to 1 and then back to at every period.
+modulator to go from 0 to 1 and then back to 0 at every period.
 
 This can be easily fixed by scaling the output of the modulator to make sure
 that its range is between 0 and 1.
@@ -388,7 +396,11 @@ Run it and have fun playing!
 
 Note that amplitude modulation works with any type of waveform and that 
 triangle, sawtooth, or square waves from lesson 1 could be used here instead of 
-sine waves and will likely produce richer sounds.
+sine waves and will likely produce richer sounds. As an exercise, you should
+try to do this.
+
+We recommend you to save the code that you just wrote in a file on your
+computer as we'll reuse some of it in the next lessons.
 
 ## Lesson 3: Frequency Modulation Synthesis
 
@@ -419,7 +431,7 @@ The `Modulation Index` slider controls the amount of modulation applied to the
 frequency of the carrier. Its range is 0 to 1000 here but in practice, it can
 be unlimited. Note that we don't need to scale the range of the modulator as 
 we did in lesson 2 for amplitude modulation as we want the frequency of the 
-carrier to oscillate around a certain value, which is defined here be the 
+carrier to oscillate around a certain value, which is defined here by the 
 `Modulator Frequency` slider. Note that we named the slider controlling the 
 carrier frequency `freq` since we want it to be controlled by MIDI events, as 
 we did in previous lessons.
@@ -458,13 +470,15 @@ make it look nicer as we did for previous examples.
 
 Note that just like AM, FM works with any kind of oscillator and square wave,
 sawtooth wave, or triangle wave oscillators could be used here instead of
-sine waves.
+sine waves. This will only work with non-band-limited oscillators (the ones
+whose name start with `lf`) as a wide frequency range might be required. 
 
-OPTIONAL: harmonicity parameter instead of `freq`.
+[show screen capture: code]
 
 ```
 import("stdfaust.lib");
-fm = hgroup("[0]FM",os.osc(carFreq + os.osc(carFreq*harmRatio)*index*harmRatio))
+harmFm(cFreq,hRatio,idx) = os.osc(cFreq + os.osc(cFreq*hRatio)*idx*hRatio);
+fm = hgroup("[0]FM",harmFm(carFreq,harmRatio,index))
 with{
   harmRatio = hslider("[0]Harmonicity Ratio[style:knob]",1,0,10,0.01);
   index = hslider("[1]Modulation Index[style:knob]",100,0,1000,0.01);
@@ -481,6 +495,17 @@ with{
 };
 process = vgroup("FM Synthesizer",fm*envelope);	
 ```
+
+A more convenient way to control the frequency parameter of the modulator is
+to use a harmonicity ratio. The frequency of the modulator can then be
+computed in function of the frequency of the carrier and the harmonicity ratio.
+In the current code, we created a new circuit implementing this special version
+of the FM algorithm. This is a good practice and it is useful to separate the
+algorithm from the user interface. Note that the harmonicity ratio is also
+used to scale the index of modulation.
+
+We recommend you to save the code that you just wrote in a file on your
+computer as we'll reuse some of it in the next lessons.
 
 ## Lesson 4: Subtractive Synthesis
 
@@ -544,8 +569,8 @@ frequency of this filter using a low frequency sine wave oscillator. Since we
 never want the cutoff frequency to be smaller or equal to zero, and even below
 the human hearing range, we need put a safeguard here using `max`.
 
-Let's now try to run this code to see how it sounds. Spend some time with the
-various parameters of the synth to see what they do.
+Let's now try to run this code to see how it sounds. Spend some time playing 
+with the various parameters of the synth to see what they do.
 
 [show screen capture: code]
 
@@ -576,7 +601,7 @@ with{
 process = vgroup("Subtractive Synthesizer",subtractive*envelope);
 ```
 
-Adding the `envelope` circuit form previous lessons we can implement a
+Adding the `envelope` circuit form previous lessons, we can implement a
 polyphonic synthesizer simply by multiplying the output of `subtractive` by
 `envelope`.
 
@@ -585,3 +610,6 @@ can be daisy chained to create complex sounds and behaviors. Also, none of the
 user interface elements here are smoothed, we'll leave that up to you.
 
 Run this code and have fun playing!
+
+We recommend you to save the code that you just wrote in a file on your
+computer as we'll reuse some of it in the next lessons.
