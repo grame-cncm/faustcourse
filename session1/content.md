@@ -312,7 +312,7 @@ button to an ADSR envelope generator. ADSR is a circuit with 5 inputs:
 import("stdfaust.lib");
 freq = hslider("freq",440,50,1000,0.01);
 gain = hslider("gain",0.5,0,1,0.01);
-gate = button("gate") : en.adsr(0.01,0.01,90,0.1);
+gate = button("gate") : en.adsr(0.01,0.01,0.9,0.1);
 timbre(f) = os.osc(f)*0.5 + os.osc(f*2)*0.25 + os.osc(f*3)*0.125;
 process = gain*gate*timbre(freq)*0.5;
 ```
@@ -336,7 +336,7 @@ We'll provide more details about this type of construction in session 2.
 import("stdfaust.lib");
 freq = hslider("freq",440,50,1000,0.01);
 gain = hslider("gain",0.5,0,1,0.01);
-gate = button("gate") : en.adsr(0.01,0.01,90,0.1);
+gate = button("gate") : en.adsr(0.01,0.01,0.9,0.1);
 timbre(f) = os.osc(f)*0.5 + os.osc(f*2)*0.25 + os.osc(f*3)*0.125;
 process = gain*gate*timbre(freq)*0.5 <: _,_;
 effect = dm.zita_light;
