@@ -140,7 +140,7 @@ envelope = en.adsr(attack,decay,sustain,release,gate)*gain
 with{
   attack = hslider("Attack",50,1,1000,1)*0.001;
   decay = hslider("Decay",50,1,1000,1)*0.001;
-  sustain = hslider("Sustain",80,1,100,1);
+  sustain = hslider("Sustain",0.8,0.01,1,1);
   release = hslider("Release",50,1,1000,1)*0.001;
   gain = hslider("gain",1,0,1,0.01);
   gate = button("gate");
@@ -175,7 +175,7 @@ envelope = en.adsr(attack,decay,sustain,release,gate)*gain
 with{
   attack = hslider("Attack",50,1,1000,1)*0.001;
   decay = hslider("Decay",50,1,1000,1)*0.001;
-  sustain = hslider("Sustain",80,1,100,1);
+  sustain = hslider("Sustain",0.8,0.01,1,1);
   release = hslider("Release",50,1,1000,1)*0.001;
   gain = hslider("gain",1,0,1,0.01);
   gate = button("gate");
@@ -203,7 +203,7 @@ envelope = hgroup("[1]Envelope",en.adsr(attack,decay,sustain,release,gate)*gain)
 with{
   attack = hslider("[0]Attack[style:knob]",50,1,1000,1)*0.001;
   decay = hslider("[1]Decay[style:knob]",50,1,1000,1)*0.001;
-  sustain = hslider("[2]Sustain[style:knob]",80,1,100,1);
+  sustain = hslider("[2]Sustain[style:knob]",0.8,0.01,1,1);
   release = hslider("[3]Release[style:knob]",50,1,1000,1)*0.001;
   gain = hslider("[4]gain[style:knob]",1,0,1,0.01);
   gate = button("[5]gate");
@@ -241,7 +241,7 @@ envelope = hgroup("[1]Envelope",en.adsr(attack,decay,sustain,release,gate)*gain*
 with{
   attack = hslider("[0]Attack[style:knob]",50,1,1000,1)*0.001;
   decay = hslider("[1]Decay[style:knob]",50,1,1000,1)*0.001;
-  sustain = hslider("[2]Sustain[style:knob]",80,1,100,1);
+  sustain = hslider("[2]Sustain[style:knob]",0.8,0.01,1,1);
   release = hslider("[3]Release[style:knob]",50,1,1000,1)*0.001;
   gain = hslider("[4]gain[style:knob]",1,0,1,0.01);
   gate = button("[5]gate");
@@ -376,7 +376,7 @@ envelope = hgroup("[1]Envelope",en.adsr(attack,decay,sustain,release,gate)*gain*
 with{
   attack = hslider("[0]Attack[style:knob]",50,1,1000,1)*0.001;
   decay = hslider("[1]Decay[style:knob]",50,1,1000,1)*0.001;
-  sustain = hslider("[2]Sustain[style:knob]",80,1,100,1);
+  sustain = hslider("[2]Sustain[style:knob]",0.8,0.01,1,1);
   release = hslider("[3]Release[style:knob]",50,1,1000,1)*0.001;
   gain = hslider("[4]gain[style:knob]",1,0,1,0.01);
   gate = button("[5]gate");
@@ -457,7 +457,7 @@ envelope = hgroup("[1]Envelope",en.adsr(attack,decay,sustain,release,gate)*gain*
 with{
   attack = hslider("[0]Attack[style:knob]",50,1,1000,1)*0.001;
   decay = hslider("[1]Decay[style:knob]",50,1,1000,1)*0.001;
-  sustain = hslider("[2]Sustain[style:knob]",80,1,100,1);
+  sustain = hslider("[2]Sustain[style:knob]",0.8,0.01,1,1);
   release = hslider("[3]Release[style:knob]",50,1,1000,1)*0.001;
   gain = hslider("[4]gain[style:knob]",1,0,1,0.01);
   gate = button("[5]gate");
@@ -488,7 +488,7 @@ envelope = hgroup("[1]Envelope",en.adsr(attack,decay,sustain,release,gate)*gain*
 with{
   attack = hslider("[0]Attack[style:knob]",50,1,1000,1)*0.001;
   decay = hslider("[1]Decay[style:knob]",50,1,1000,1)*0.001;
-  sustain = hslider("[2]Sustain[style:knob]",80,1,100,1);
+  sustain = hslider("[2]Sustain[style:knob]",0.8,0.01,1,1);
   release = hslider("[3]Release[style:knob]",50,1,1000,1)*0.001;
   gain = hslider("[4]gain[style:knob]",1,0,1,0.01);
   gate = button("[5]gate");
@@ -593,7 +593,7 @@ envelope = hgroup("[2]Envelope",en.adsr(attack,decay,sustain,release,gate)*gain*
 with{
   attack = hslider("[0]Attack[style:knob]",50,1,1000,1)*0.001;
   decay = hslider("[1]Decay[style:knob]",50,1,1000,1)*0.001;
-  sustain = hslider("[2]Sustain[style:knob]",80,1,100,1);
+  sustain = hslider("[2]Sustain[style:knob]",0.8,0.01,1,1);
   release = hslider("[3]Release[style:knob]",50,1,1000,1)*0.001;
   gain = hslider("[4]gain[style:knob]",1,0,1,0.01);
   gate = button("[5]gate");
