@@ -221,11 +221,23 @@ the screen.
 For instance, we can take the arc cosine of a signal, its arc sine, arc
 tangent, arc tangent on 2 signals, cosine, sine, and tangent. 
 
+Let's create a sine wave oscillator from scratch to show the usage of the sine or cosine 
+function.
+
+[Slide 22: Sine-Wave oscillator]
+
+```
+phasor(f) = f/44100 : (+,1:fmod) ~_;
+process = phasor(440) * 6.28318530718 : sin;
+```
+
+We start by defining a `phasor`, a phase generator that produces a periodic sawtooth signal of frequency f. Then we multiply the output signal by `2 PI`  and take the sine.
+
 ### Log and Exponential
 
 Bla bla
 
-[Slide 22: Log and Exponential]
+[Slide 23: Log and Exponential]
 
 Bla bla
 
@@ -234,14 +246,14 @@ Bla bla
 Other mathematical operations are available as primitives in Faust as shown on
 the screen.
 
-[Slide 23: Min, Max and other functions]
+[Slide 24: Min, Max and other functions]
 
 Let's take a look at 2 very useful primitives: min and max. Min compares 2
 input signals and always output the sample with the smallest value. Inversely
 max compares 2 input signals and always output the sample with the greatest
 value. 
 
-[Slide 24: Max and Min semantics]
+[Slide 25: Max and Min semantics]
 
 As an example, a simple dirty distortion effect can be implemented using these
 2 primitives and a multiplication. Let's try to run it in the Faust online editor. 

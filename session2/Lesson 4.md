@@ -1,5 +1,5 @@
 ## Lesson 4: Delays and tables
-[Slide 25: Delays and Tables]
+[Slide 26: Delays and Tables]
 
 The primitives we have seen so far are essentially straight forward extensions 
 of mathematical operations on numbers to signals. 
@@ -10,7 +10,7 @@ and read-only tables (`rdtable`) and read-write tables (`rwtable`).
 ### delay lines
 Let's start with the delay lines:
 
-[Slide 26: Delays semantics]
+[Slide 27: Delays semantics]
 
 The primitive `mem` represents a 1-sample delay. The output signal is the input 
 signal delayed by 1 sample. 
@@ -55,7 +55,7 @@ You will now here a click after about 1 second.
 
 ### Read only table
 
-[Slide 27: read only table semantics]
+[Slide 28: read only table semantics]
 
 A read table takes three input signals. The first one is a constant signal that
 defines the size of the table. The second one defines the content of the table.
@@ -73,17 +73,22 @@ process = 4096, dirac, phase : rdtable;
 
 ### Read-Write table
 
-[Slide 27: read only table semantics]
+[Slide 29: read write table semantics]
 
 A read-write table is an extension of the read only table with two extra input signals: 
 a write index and a signal to write in the table. 
 
-The first input signal is a constant signal that defines the size of the table. The second one defines the initial content 
-of the table. The third signal is the writing index in the table. The fourth input signal 
-is the signal to write into the table. The fifth and last input signal is the reading 
-index in the table. 
+The first input signal is a constant signal that defines the size of the table. The second 
+one defines the initial content of the table. The third signal is the writing index in the table. 
+The fourth input signal is the signal to write into the table. The fifth and last input signal 
+is the reading index in the table. 
 
-You will see a practical example of use of the read-write table at the end of session 4.
+At each instant `t `the content of the table is first modified by writing at index 
+index `x2(t)` the value of `x3(t)`. Then the table is read at index `x4(t)`. 
+
+The behaviour of read-write tables is a little bit complex. You will see a practical example 
+of use of the read-write table at the end of session 4.
+
 
 
 
