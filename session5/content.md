@@ -31,7 +31,7 @@ object is returned.
 [slide: TODO]
 
 In the LLVM case, things are a bit different. Indeed, LLVM bit code is much
-lower level than C++ and can be interpreted on the fly by a virtual machine
+lower level than C++ and can be compiled to machine code on the fly,
 which means that it allows to go straight from the Faust code to a binary
 without going through C++. The shared library version of the Faust compiler
 takes advantage of this feature to run Faust objects on the fly.
@@ -39,7 +39,7 @@ takes advantage of this feature to run Faust objects on the fly.
 [slide: TODO]
 
 WebAssembly, JavaScript, and ASM JavaScript offer more or less the same type
-of features and generated code can be interpreted on the fly. This works
+of features and generated code can be compiled on the fly. This works
 especially well with the emscripten version of the Faust compiler. That's
 basically the system that is used on the online editor: Faust code is compiled
 with the emscripten version of the Faust compiler, and the generated webassembly
@@ -100,7 +100,7 @@ we show you how to compile them on your computer and use them.
 
 The remote compilation feature of the online editor is great as it allows to 
 try the various Faust targets without installing the corresponding dependencies.
-Indeed, in order to compile a Faust program as a Max MSP external, which we're
+Indeed, in order to compile a Faust program as a Max/MSP external, which we're
 about to do in this lesson, you should have the Max/MSP SDK/libraries 
 installed on your system. While the dependencies related to some platform are
 relatively lightweight, others such as Android require you to install gigabytes
