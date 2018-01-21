@@ -1,6 +1,23 @@
 # Session 5: Deploying Faust Programs
 
-TODO: should say something about atom
+One of the powers of Faust lies in its ability to turn Faust code into a large
+number of ready-to-use objects ranging for audio plug-ins to mobile apps. So
+far in this course, we saw how to do this using the export function of the
+online editor. While it is extremely convenient as it allows to use almost
+all the Faust targets without having to install something on your computer, it
+has some limitations. 
+
+In this last session, we're going to dig in into the lower level features of 
+Faust. We'll give you an overview of the Faust ecosystem and of how things work
+under the hood. We'll give you some details on how DSP algorithms implemented
+in Faust can be debugged by plotting the signal they output. Finally, we'll
+detail the way various Faust targets work. In particular, we'll demonstrate how 
+to make smartphone based instruments or how to generate DSP engines for various 
+platforms using `faust2api`.
+
+Before we get started, we want to highlight the fact that while the online
+editor is fully cross-platform, some of the tools presented in this session
+might only work on Mac OSX and Linux.
 
 ## Lesson 1: Structure of the Faust Ecosystem
 
@@ -8,17 +25,17 @@ The Faust ecosystem is pretty rich and varied. Many tools exist to write and
 compile Faust code. In this lesson, we try to give you an overview of the
 way Faust works in general and of the various tools that are associated to it.
 
-[slide: TODO]
+[show slide 1]
 
 The Faust compiler can be used under different forms: as a command line tool,
 as a C++ shared library, or as an emscripten module. These last 2 cases allow 
 for the embedding of the Faust compiler in other C++ project or in web pages,
 as it is done for the online editor. 
 
-[slide: TODO languages]
-
 The Faust compiler can convert Faust code into various lower level languages
-such as C, C++, JAVA, JavaScript, ASM JavaScript, WebAssembly, LLVM and more. 
+such as C, C++, JAVA, JavaScript, ASM JavaScript, WebAssembly, LLVM, and more. 
+
+[show slide 2]
 
 In the C++ case, the generated code can be placed in a wrapper (also called
 architecture) that will turn it into a specific element such as an audio
@@ -28,7 +45,7 @@ works: the Faust code is sent to a remote server, the corresponding C++ code is
 generated and embedded in an architecture file and the corresponding compiled 
 object is returned. 
 
-[slide: TODO]
+[show slide 3]
 
 In the LLVM case, things are a bit different. Indeed, LLVM bit code is much
 lower level than C++ and can be compiled to machine code on the fly,
@@ -36,7 +53,7 @@ which means that it allows to go straight from the Faust code to a binary
 without going through C++. The shared library version of the Faust compiler
 takes advantage of this feature to run Faust objects on the fly.
 
-[slide: TODO]
+[show slide 4]
 
 WebAssembly, JavaScript, and ASM JavaScript offer more or less the same type
 of features and generated code can be compiled on the fly. This works
@@ -46,7 +63,7 @@ with the emscripten version of the Faust compiler, and the generated webassembly
 code is fed directly intro a script processor node (or an Audio Worklet by the
 time your watching this video) to be executed in the browser. 
 
-[slide: TODO]
+[show slide 5]
 
 Various more or less recent development tools based on these various versions 
 of the Faust compiler are available. FaustWorks is the oldest Faust IDE and
@@ -54,11 +71,15 @@ it is based on the command line version of Faust. It allows us to edit Faust
 code, visualize its corresponding block diagram and compile it using one of the
 targets installed on the system. 
 
+[show slide 6]
+
 FaustLive is a more recent tool embedding the shared library version of the 
 Faust compiler offering the possibility to compile Faust code on the
 fly using the LLVM backend.
 
 [show URL: <http://faust.grame.fr/onlinecompiler/>]
+
+[show screen capture: <http://faust.grame.fr/onlinecompiler/>]
 
 The Faust online compiler can be seen as the ancestor of the online editor and
 allows to edit Faust code directly in the web browser by getting access to most
@@ -68,11 +89,13 @@ remotely.
 
 [show URL: <http://faust.grame.fr/faustplayground/>]
 
+[show screen capture: <http://faust.grame.fr/faustplayground/>]
+
 The online editor and the FaustPlayground are close cousins as they both
 host the emscripten version of the Faust compiler and use webassembly to run
 Faust programs on the fly directly in the browser.
 
-[slide: TODO]
+[show slide 7]
 
 Then there's a whole collection of platform related tools embedding the Faust
 compiler. For example, it is possible to write Faust code directly in Max,
@@ -91,26 +114,39 @@ use in the frame of this class.
 
 ## Lesson 2: Faust Architectures
 
-As you learned throughout this course, Faust support a wide range of targets
-and allows to export a Faust program various plug-ins standards, standalones,
-unit generators, mobile and apps, and more. 
+As you learned throughout this course, Faust supports a wide range of targets
+and allows us to export a Faust program to various plug-ins standards, 
+standalones, unit generators, mobile and apps, and more. 
 
 In this quick lesson, we give an exhaustive overview of the Faust targets and
 we show you how to compile them on your computer and use them.
 
-The remote compilation feature of the online editor is great as it allows to 
+The remote compilation feature of the online editor is great as it allows us to 
 try the various Faust targets without installing the corresponding dependencies.
-Indeed, in order to compile a Faust program as a Max/MSP external, which we're
+For example, in order to compile a Faust program as a Max/MSP external, which we're
 about to do in this lesson, you should have the Max/MSP SDK/libraries 
-installed on your system. While the dependencies related to some platform are
+installed on your system. While the dependencies related to some platforms are
 relatively lightweight, others such as Android require you to install gigabytes
-of elements on your system.   
+of elements on your system.
 
-Demo of caqt, VST, Max, and PD
+Let's try to compile a Faust object for various platforms to see how this
+works. Keep in mind that this all can be done through the export function of
+the online editor.
+
+Let's write a simple Faust program calling the `dm.zita_light` circuit that we
+used throughout this course.
+
+```
+import("sdtfaust.lib");
+process = dm.zita_light;
+```
+
+You probably remember that it hosts its own user interface elements so we don't
+have to add anything here.
+
+And then demo of caqt, VST, Max, and PD.
 
 ## Lesson 3: Plotting Signals
-
-TODO: say something about windows
 
 The error messages returned by the Faust compiler tell us about potential
 issues in the code of a Faust program, but they don't help us debug the 
@@ -119,13 +155,14 @@ any error but might not make any sound.
 
 In this short lesson, we show you how to plot the samples generated by a Faust 
 program. This, combined with the ability to plot the block diagram of a Faust
-code can be of great help when it comes to figure out DSP-related issues.
+code can be of great help when it comes to solve DSP-related issues.
 
-The Faust distribution comes with a simple architecture called `faust2plot`. So
+The Faust distribution comes with a simple architecture called `faust2plot`.
+Note that it will only work on OSX, Linux and possibly Cygwin on Windows. So
 if the Faust compiler is installed on your system, `faust2plot` should also be
 available. `faust2plot` takes Faust code and turns it into a command line 
 program that when executed will output a Matlab/Octave file hosting a vector or
-a matrix (depending on if the signal has one or 2 channels), containing the
+a matrix (depending on if the signal has one or more channels), containing the
 first N samples output by the algorithm implemented in the Faust file.
 
 [show screen capture: code]
@@ -203,15 +240,15 @@ Note that any standard octave or matlab operations can be carried out on this
 signal. For example, its spectrogram could be plotted or we could just compute
 its Fast Fourier Transform.
 
-## Lesson 4: Using the DSP Class Generated by Faust
+## Lesson 4: Using the C++ DSP Class Generated by Faust
 
 The most basic way to use Faust is to generate C++ code with its command line
 compiler. In this lesson, we briefly describe the structure of the DSP class
 generated by Faust and how it can be used in broader projects. 
 
 Let say we want to add a reverb to an audio callback, we could write a simple
-Faust program calling `dm.zita_light()` that implements a nice feedback delay
-network reverb. Remember that we already used this circuit in session 1 and
+Faust program calling `dm.zita_light` that implements a nice feedback delay
+network reverb. Remember again that we already used this circuit in session 1 and
 that it hosts its own user interface.
 
 [show screen capture: code]
@@ -231,8 +268,8 @@ C++ code directly in the terminal:
 faust reverb.dsp
 ```
 
-To save in a C++ file, we can just add the `-o` option followed by the name of
-the file:
+To save it in a C++ file, we can just add the `-o` option followed by the name 
+of the file:
 
 [show screen capture: run]
 
@@ -248,9 +285,9 @@ there.
 
 [show screen capture: open reverb.h]
 
-The `mydsp` class host a series of methods to get information about the DSP
+The `mydsp` class hosts a series of methods to get information about the DSP
 object, to initialize it, or to run it. If we scroll down to the `public`
-section of `mydsp`, the first method you'll find there is `metadata`. It allows
+section of `mydsp`, the first method we'll find there is `metadata`. It allows
 for the retrieval of the Faust metadata associated with the different files
 imported or declared in the Faust code such as library names, licensing terms
 and more.
@@ -284,7 +321,7 @@ Faust compiler. For example, `-cn` allows you to change the name of the
 `mydsp` class, `-vec` will produce vectorized C++ code. To get an exhaustive
 list of these options, you can run `faust -h`.    
 
-## Lesson 5: `faust2api`
+## Lesson 5: `faust2api`: Marking DSP Engines Using Faust 
 
 TODO: see how this could be integrated to the online editor
 
@@ -445,9 +482,9 @@ public class MainActivity extends AppCompatActivity {
 
 So all we have to do is instantiate the `DspFaust` object and specify a sampling
 rate and a block size. Calling the `start()` method will start computation
-and audio buffers will be processed. Note that we're calling the `stop()` in
+and audio buffers will be processed. Note that we're calling `stop()` in
 `onDestroy` to stop computation when the app is terminated. Since this is all
-happening JAVA, no need to deinstantiate our `dspFaust` object thanks to
+happening in JAVA, no need to deinstantiate our `dspFaust` object thanks to
 garbage collection.
 
 If we run the app at this point, it will work but no sound will be generated.
@@ -468,9 +505,9 @@ Let's run this and we should hear sound! Hooray!
 
 That's not all folks! `faust2api` also allows you to make polyphonic DSP 
 engines and since our Faust code is already declaring the standard `freq`, 
-`gain`, and `gate` MIDI parameters, it is already polyphony compatible. Let's
+`gain`, and `gate` MIDI parameters, it is polyphony compatible. Let's
 run `faust2api` again using the `-nvoices` option which adds polyphony support
-to the generated engine and allow for the specification of a maximum number of
+to the generated engine and allows for the specification of a maximum number of
 voices:
 
 ```
@@ -482,7 +519,7 @@ before. In practice, you can just copy the `.cpp` file since the name and
 number of the parameters of the Faust object didn't change.
 
 Sweet! Now instead of using `setParamValue` we can use the `keyOn()` or
-`newVoice()` method to instantiate a new voice. Wanna make a major triad?:
+`newVoice()` methods to instantiate a new voice. Wanna make a major triad?:
 
 ```
 dspFaust.keyOn(70,100);
@@ -496,18 +533,12 @@ that.
 
 Have fun coding!
 
-TODO: auto doc for faust2api not working
-
-## Lesson 6: JUCE
-
-
-
-## Lesson 7: faust2smartkeyb
+## Lesson 6: `faust2smartkeyb`: Making Smartphone Instruments
 
 The Faust standard user interface is perfectly adapted to various cases such
 as audio plug-ins, and most standalone applications. However, touch screens
 on mobile devices can be exploited in a better way and sliders, knobs, and
-buttons are not always cover your needs. For example, let's say you want to
+buttons don't always cover our needs. For example, let's say you want to
 turn the entire screen of the device into a continuous X/Y control surface,
 you wouldn't be able to do that with standard Faust UI elements. 
 
@@ -520,12 +551,13 @@ a pitch mapping similar to fret board.
 
 In this lesson, we show you how to use `faust2smartkeyb` to make 
 mobile-device-based digital musical instruments. Things should work more or
-less the same on iOS and Android, so you can either of these 2 platforms for
+less the same on iOS and Android, so you can use either of these 2 platforms for
 this lesson. Note that this lesson is not about Android and iOS development,
 therefore we'll assume that your development toolchain for these 2 platforms
-is already up and running. 
+is already up and running. More information about this can be found at the URL
+that prompts on your screen. 
 
-[show URL to how to set these things up TODO]
+[show URL: <https://ccrma.stanford.edu/~rmichon/faustTutorials/#making-faust-based-smartphone-musical-instruments>]
 
 First, you should check the documentation of `faust2smartkeyb` as we wont cover
 all its features here.
@@ -559,7 +591,7 @@ must support various CPU architectures so compiling and installing the app
 directly from the IDE such as Android Studio or XCode can help us save a lot of
 time here.
 
-Once the app project is generated, we can open in Android Studio or XCode. Some
+Once the app project is generated, we can open it in Android Studio or XCode. Some
 updates might have to be made here such as the version of Gradle or the target
 SDK on Android or the bundle identifier on iOS. We'll let you figure that out,
 it should be relatively simple.
@@ -594,7 +626,7 @@ can be used using the `x` parameter.
 
 At the beginning of the code, we can find the `SmartKeyboard` interface 
 declaration, this is where the touchscreen interface replacing the standard 
-UI elements is configured
+UI elements is configured.
 
 [Just briefly describe what's going on]
 
