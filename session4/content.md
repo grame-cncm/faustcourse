@@ -412,8 +412,8 @@ certain speed.
 import("stdfaust.lib");
 looper = rwtable(tablesize,0.0,recIndex,_,readIndex)
 with{
-  record = button("[2]Record") : int;
-  readSpeed = hslider("[0]Read Speed",1,0.001,10,0.01);
+  record = button("Record") : int;
+  readSpeed = hslider("Read Speed",1,0.001,10,0.01);
   tablesize = 48000;
   recIndex = +(1)~*(record) : %(tablesize);
   readIndex = readSpeed/float(ma.SR) : (+ : ma.decimal) ~ _ : *(float(tablesize)) : int;
@@ -455,8 +455,8 @@ using the `par` primitive.
 import("stdfaust.lib");
 looper(detune) = rwtable(tablesize,0.0,recIndex,_,readIndex)
 with{
-  record = button("[2]Record") : int;
-  readSpeed = hslider("[0]Read Speed",1,0.001,10,0.01);
+  record = button("Record") : int;
+  readSpeed = hslider("Read Speed",1,0.001,10,0.01);
   tablesize = 48000;
   recIndex = +(1)~*(record) : %(tablesize);
   readIndex = readSpeed*(detune+1)/float(ma.SR) : (+ : ma.decimal) ~ _ : *(float(tablesize)) : int;
