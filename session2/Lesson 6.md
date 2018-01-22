@@ -1,141 +1,233 @@
-## Lesson 6: Programming by composition
-- BDA overview
-- priority (quiz: expressions equivalentes)
-- parallel ()
-- sequential
-- split
-- merge
-- recursion
+## Lesson 7: Faust programs
 
-### Introduction
-In this lesson we are going to see the composition operations that are at the heart of the language.
-
-Faust is based on the idea of combining audio circuits together to form more complex ones. The way to combine these circuits is by using a set of five 'wiring' operations. Each of these operations takes two circuits and connects them in a particular way. These operations define a kind of "arithmetic" on circuits.
-
-[SLIDE 34: composition operations]
-
-For example the sign column (:) is used for sequential composition. It connects all the outputs of the first circuit to the corresponding input of the second circuit. For this operation to take place, the number of outputs of the first circuit and the number of inputs of the second one must identical.
-
-Like in arithmetic expressions, composition operations have precedence rules that defines the order in which operations are done. These precedences have been fixed so that a sequence of parallel circuits, a very common structure, can be written without parenthesis.
-
-The highest precedence operation is the recursive composition. It has precedence 4. Then we have the parallel composition (with precedence 3), then sequential composition (with precedence 2) and finally the split and merge compositions (with precedence 1).
-
-[SLIDE 35: composition operations precedence]
-Let see some examples. bla bla...
-
-Let's now review in details these five composition operations starting with the sequential composition.
-
-### Sequential composition
-
-[SLIDE 36: sequential composition]
-The sequential composition connects the outputs of A to the inputs of B. The first output of A is connected to the first input of B, etc. The number of outputs of A must be equal to the number of inputs of B otherwise the Faust compiler will flag an error.
-
-[DEMO]
-
-Let's see what happens if we try to connect `+` that has one output to `*` that has two inputs
-
-```
-process = + : *;
-```
-
-When we try to run the program we get an error message:
-“Error in sequential composition (A:B).
-The number of outputs (1) of A = + must be equal to the number of inputs (2) of B : *"
-
-### Parallel composition
-
-[SLIDE 37: parallel composition]
-
-The parallel composition is probably the simplest one. It places the two circuits one on top of the other, without connections. The inputs of the resulting circuit are the inputs of A and B in that order. The outputs of the resulting circuit are the outputs of A and B in that order. In this example the resulting circuit has 3 inputs and 3 outputs.
-
-There are no constraints on the number of inputs and outputs of the circuits that can be composed in parallel.
-
-[QUIZ: select the middle signal among three]
-Using the wire and the cut primitives and the parallel composition, define a circuit that takes three input signals but outputs only the middle one.
-
-[ANSWER: select the middle signal among three]
-Here is the solution: we place in parallel a cut, a wire and another cut. In generale if we want to select one signal among n, we can create a circuit with n-1 cut and one wire.
-
-### Split composition
-
-[SLIDE 40: split composition]
-
-The split composition A<:B is used to distribute the outputs of A to the inputs of B.
-For the operation to be valid the number of inputs of B must be a multiple of the number of outputs of A.
-
-[QUIZ: Two Ways Stereo Splitter]
-This code splits a stereo cable into two stereo cables. Write the Faust code and draw the bloc-diagram corresponding.
-
-[ANSWER: Two Ways Stereo Splitter]
-Here is the answer. First draw the two wires in parallel on the left side, then draw the four wires in parallel on the right, and then do the connections between them.
+In this lesson we will see in more details how faust programs are organized. Most of the programs we have seen so far where made of very few lines of code. But for larger programs we want to structure our code.
 
 
-### Merge composition
+### Programs and Statements
+The first thing to know is that a Faust program is a list of statements. The statements of a Faust program are of four kinds :
+- metadata declarations,
+- file imports,
+- definitions
+- and documentation.
+All statements but documentation end with a semicolon (;). We will not look at documentation statements. But if you are curious about the automatic documentation system you can look at chapter 11 of Faust Quick Reference.
 
-[SLIDE 43: merge composition]
-
-The merge composition A:>B is the dual of the split composition. The number of outputs of A must be a multiple of the number of inputs of B. For example a merge composition can be realized between a A has four outputs and a B with two inputs. Note than when several output signals are merge into an input signals, the signals are added together. In other words, `_,_ :> _` is equivalent to `+`.
-
-[QUIZ: Add three signals together without using the + primitive]
-[ANSWER: Add three signals together without using the + primitive]
 
 
-### Recursive composition
+### Metadata Declarations
+Meta-datadeclarations (for example `declare name "noise";`) are optional and typically used to document a Faust project, or to pass information to the architecture files. All these declarations will be embedded into the generated code with a mechanism for the surrounding program to retrieve this information.
 
-[SLIDE 46: recursive composition]
-The recursive composition allows to create feedback loops into a circuit. The condition for this operation to be possible is that the number of inputs of B must be less or equals to the number of output of A, and the number of outputs of B must be less or equal to the number of inputs of A.
+Common declarations are for example:
 
-SLIDE 47: valid/invalid recursive compositions]
-For example `+ ~ _` is a valid expressions because it respects these two conditions. But `_ ~ +` is not a valid expression because  `+` have two inputs while `_` provides only one output.
+    declare name "SuperFx";
+    declare author "Alan Turing";
+    declare copyright "Stanford University";
+    declare license "GPL 3";
 
-[QUIZ 48: valid/invalid recursive compositions]
-[ANSWER 49: valid/invalid recursive compositions]
+It is a good habit to have these declare in you code
 
-### Examples
+Declaration can be used also to pass information to the architecture file. For example when you are creating smartkeyboard application you can give an abstract description of the keyboard user interface to be generated:
 
-#### Example 1: a noise generator
+    declare interface "SmartKeyboard {
+	    'Number of Keyboards':'1',
+	    'Keyboard 0 - Number of Keys':'1',
+	    'Keyboard 0 - Piano Keyboard':'0',
+	    'Keyboard 0 - Static Mode':'1',
+	    'Keyboard 0 - Send X':'1',
+	    'Keyboard 0 - Send Y':'1'
+    }";
 
-In this example we are going to implement a white noise generator.
 
-```
-// random  = (_,12345:+) ~ (_,1103515245:*);    // core syntax
-// random  = _+12345 ~ _*1103515245;            // infix notation
-// random  = +(12345) ~ *(1103515245);          // prefix notation
+### Definition
+Definitions, like `process = +;` are the most common statements. A valid Faust program must a least have a definition of `process`, the entry point of the program so to speak. If you are familiar with `C/C++` you can think of `process` as the analog of `main`.
 
-random  = +(12345) ~ *(1103515245);
+Definitions are essentially a convenient shortcut avoiding to type long expressions. During compilation, more precisely during the evaluation stage, identifiers are replaced by their definitions. It is therefore always equivalent to use an identifier or directly its definition.
 
-noise   = random/2147483647.0;
+The order of definition doesn't matter in Faust (the only exception is when defining pattern matching rule). But redefinitions are not allowed.
 
-process = noise * vslider("Volume[style:knob]", 0, 0, 1, 0.1) <: _,_;
+We will come back to definitions in more details later in the lesson...
 
-```
 
-#### Example 2: a simple echo
+### Environments
 
-In this example we are going to implement a very simple echo. We will make use of the recursive composition to create the feedback in the circuit.
+Environments are a way to group related definitions together in a separate dictionnary. Environment are also a convenient way to avoid potential conflict of names in large programs with many definitions. They have somehow the same goal as namespaces in C++.
 
-```
-import("stdfaust.lib");
+Let say we would like to group together several constants for later reuse. We can write the following program:
 
-echo(d,f) = + ~ (@(d) : *(f));
-process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : echo(44100/4, 0.75);
+    myconst = environment {
+        PI = 3.14159265359;
+        e = 2.71828182846;
+    };
 
-```
+    process = myconst.e;
 
-Let's look at the resulting block-diagram
+### With
+Environments local to an expression can be create using the `with {}` construction. You will often find this construction in Faust programs.
 
-#### Example 3 : a ping-pong stereo echo
-In this example we are creating a left-right ping pong echo. This can be easily implemented by having two echo in parallel for the left and right channel and slightly delay the right channel
+    import("stdfaust.lib");
 
-```
-import("stdfaust.lib");
+    pingpong(d,f) = echo(2*d,f) <: _, @(d)
+        with {
+            echo(d,f) = + ~ (@(d) : *(f));
+        };
 
-echo(d,f) = + ~ (@(d) : *(f));
-pingpong(d,f) = echo(2*d,f) <: _, @(d);
+    process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : pingpong(44100/4, 0.75);
 
-process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : pingpong(44100/4, 0.75);
 
-```
+### File imports
+
+File imports allow to import definitions from other source files. Most Faust programs starts with importing the "stdfaust.lib" library.
+
+    import("stdfaust.lib");
+
+A Faust library itself is just a file with Faust code. The `import` statement that adds all the definitions of the imported file into the current program as if they where typed directly into the progam.
+
+By convention Faust programs have the `.dsp` extension, while Faust libraries have the `.lib` extension. The main difference between a Faust program and a Faust library is that a library doesn't define `process`.
+
+### library("filename")
+If we look inside `stdfaust.lib` we can see that it in turn imports all the standard libraries using a bunch of `library("filename")` expressions.
+
+    an = library("analyzers.lib");
+    ba = library("basics.lib");
+    co = library("compressors.lib");
+    de = library("delays.lib");
+    dm = library("demos.lib");
+    dx = library("dx7.lib");
+    en = library("envelopes.lib");
+    fi = library("filters.lib");
+    ho = library("hoa.lib");
+    ma = library("maths.lib");
+    ef = library("misceffects.lib");
+    os = library("oscillators.lib");
+    no = library("noises.lib");
+    pf = library("phaflangers.lib");
+    pm = library("physmodels.lib");
+    re = library("reverbs.lib");
+    ro = library("routes.lib");
+    sp = library("spats.lib");
+    si = library("signals.lib");
+    sy = library("synths.lib");
+    ve = library("vaeffects.lib");
+    sf = library("all.lib");
+
+`import` and `library` are somehow similar, as already explained `import` adds all the definitions of the imported file into the current program, while `library` creates an environment and imports all the definition in that environment.
+
+
+### Function definitions and lambda expressions
+
+Definitions can have formal parameters to create user defined functions.
+Let's take an example:
+
+    import("stdfaust.lib");
+    wave = 440/ma.SR : (+, 1 : fmod) ~ _;
+    process = wave * hslider("gain", 0, 0, 1, 0.01);
+
+In this example wave has a fixed frequency of 440 Hz. But we would like to have a more general definition with a frequency parameter that we can specify when we use wave.
+
+    import("stdfaust.lib");
+
+    wave(f) = f/ma.SR : (+, 1 : fmod) ~ _;
+    process = wave(440) * hslider("gain", 0, 0, 1, 0.01);
+
+Please note that this is equivalent to :
+
+    import("stdfaust.lib");
+
+    wave    = \(f).(f/ma.SR : (+, 1 : fmod) ~ _);
+    process = wave(440) * hslider("gain", 0, 0, 1, 0.01);
+
+where the expression `\(f).(f/ma.SR : (+, 1 : fmod) ~ _)` is called a lambda expression. You can think of a lambda expression has an anonymous function. Lambda expressions can be used directly as in the following example:
+
+    import("stdfaust.lib");
+
+    process = \(f).(f/ma.SR : (+, 1 : fmod) ~ _)(440) * hslider("gain", 0, 0, 1, 0.01);
+
+Let's do a more involved example of function. We would like to create a function that takes a monophonic effet and adds a dry/wet control.
+
+    import("stdfaust.lib");
+
+    echo(d,f) = + ~ (@(d) : *(f));
+    drywet(fx) = _ <: _, fx : *(1-w) , *(w) :> _
+        with {
+            w = vslider("dry-wet[style:knob]", 0.5, 0, 1, 0.01);
+        };
+
+    process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : drywet(echo(44100/4, 0.75));
+
+The drywet function is an example of higher order function. It takes a circuit as a parameter and build a new circuit around it.
+
+### pattern matching expressions
+
+Pattern matching is a very powerful mechanism to algorithmically generate Faust expressions.
+Let's say that you want to describe a function to duplicate an expression several times in parallel:
+
+    duplicate(1,x) = x;
+    duplicate(n,x) = x, duplicate(n-1,x);
+
+    process = duplicate(5,0) : duplicate(5,_) :> _
+
+
+Please note that this last definition is a convenient alternative to the more verbose :
+
+    duplicate = case {
+                (1,x) => x;
+                (n,x) => duplicate(n-1,x);
+                };
+
+Here is another example to count the number of elements of a list. Please note that we simulate lists using parallel composition : (1,2,3,5,7,11). The main limitation of this approach is that there is no empty list. Moreover lists of only one element are represented by this element :
+
+    duplicate(1,x) = x;
+    duplicate(n,x) = x, duplicate(n-1,x);
+
+    count((x,xs)) = 1+count(xs);
+    count(x) = 1;
+
+    process = count(duplicate (5, 0));
+
+
+Please note that the order of pattern matching rules matters. The more specific rules must precede the more general rules.
+
+Here is a more involved example. We would like to create a reverse echo where echo increase in volume instead of decreasing. We can't use a simple feedback loop like for the regular echo, but we can build the circuit algorithimically using pattern matching
+
+    import("stdfaust.lib");
+
+    revecho (N,d,a) = _ <: R(N,0) :> _
+        with {
+            R(0,m) = echo(d*m,0);
+            R(n,m) = echo(d*m,a^n), R(n-1,m+1);
+            echo(d,a) = @(d) : *(a);
+        };
+
+    process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : revecho(8, ma.SR/10, 0.7);
+
+### iterations
+Faust offers a set of predefined iterators: `seq`, `par`, `sum` and `prod`. You can think of these iterators as some kind of for loops that can be used to build complex circuits.
+
+An iterator takes 3 parameters. The first one is the name of a variable, then we have the number of iterations, and finally the expression we want to iterate.
+
+Let's do a simple equalizer by placing in sequence 5 peak equalizers
+
+    declare name "equalizer";
+    import("stdfaust.lib");
+    peakeq (f) = hgroup("band %f",
+                            fi.peak_eq_cq(level,f,Q)
+                            with {
+                                level = vslider("level[unit:dB][style:knob]", 0, -70, 12, 1);
+                                Q = vslider("Q[style:knob]", 1, 1, 100, 0.01);
+                            }
+                        );
+    process  =	no.noise : hgroup("Equalizer", seq(i, 5, peakeq(500+500*i)));
+
+
+### expressions
+
+To end this lesson we would like to come back on how expressions are written in Faust. Let say that we want to multiply a signal by 0.5. We can write this in three different, but equivalent, ways depending if we are using the Faust core syntax, or infix notation or prefix notation, partial application.
+
+[SLIDE 50: type of notations]
+
+
+
+
+
 
 
 
