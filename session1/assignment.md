@@ -6,6 +6,8 @@ Reuse the last example of session 1 implementing a polyphonic organ and
 replace the `timbre` definition by a sawtooth oscillator. For this, try to find 
 the sawtooth circuit in the online documentation of the Faust libraries. 
 
+Submit the corresponding Faust code.
+
 Answer: 
 
 ```
@@ -27,6 +29,8 @@ blow onto the microphone. The instrument should still be polyphonic and
 no sound should be generated if no key is pressed. In other words, we're trying
 to make a Melodica.
 
+Submit the corresponding Faust code.
+
 ## Step 3 (Bonus)
 
 Turn the previous code into an Android or iOS app using SmartKeyboard:
@@ -45,3 +49,5 @@ declare interface "SmartKeyboard{
 }";
 ```
 
+Make a video of yourself playing your instrument and submit a link to this
+video.
