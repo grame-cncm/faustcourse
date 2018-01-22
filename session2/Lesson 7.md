@@ -141,7 +141,7 @@ where the expression `\(f).(f/ma.SR : (+, 1 : fmod) ~ _)` is called a lambda exp
 
     process = \(f).(f/ma.SR : (+, 1 : fmod) ~ _)(440) * hslider("gain", 0, 0, 1, 0.01);
 
-Let's do a more involved example of function. We would like to create a fiunctionthat takes a monophonic effet and adds a dry/wet control.
+Let's do a more involved example of function. We would like to create a function that takes a monophonic effet and adds a dry/wet control.
 
     import("stdfaust.lib");
 
@@ -153,7 +153,7 @@ Let's do a more involved example of function. We would like to create a fiunctio
 
     process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : drywet(echo(44100/4, 0.75));
 
-The drywet function is an example of higher order function. It takes a circuit as a parameter and build an additional circuit around it.
+The drywet function is an example of higher order function. It takes a circuit as a parameter and build a new circuit around it.
 
 ### pattern matching expressions
 
@@ -200,39 +200,30 @@ Here is a more involved example. We would like to create a reverse echo where ec
     process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : revecho(8, ma.SR/10, 0.7);
 
 ### iterations
-Faust offers a set of predefined iterators: `seq`, `par`, `sum` and `prod`.
+Faust offers a set of predefined iterators: `seq`, `par`, `sum` and `prod`. You can think of these iterators as some kind of for loops that can be used to build complex circuits.
 
-let's do a simple equalizer
+An iterator takes 3 parameters. The first one is the name of a variable, then we have the number of iterations, and finally the expression we want to iterate.
 
+Let's do a simple equalizer by placing in sequence 5 peak equalizers
+
+    declare name "equalizer";
     import("stdfaust.lib");
-    process  =	hgroup("equalizer",
-                    seq(i, 5,
-                        hgroup("band %i",
-                            fi.peak_eq_cq(level,fx,Q)
+    peakeq (f) = hgroup("band %f",
+                            fi.peak_eq_cq(level,f,Q)
                             with {
                                 level = vslider("level[unit:dB][style:knob]", 0, -70, 12, 1);
-                                fx = 500 + i * 500;
-                                Q = vslider("Q[style:knob]", 0.5, 0.1, 1, 0.01);
+                                Q = vslider("Q[style:knob]", 1, 1, 100, 0.01);
                             }
-                        )
-                    )
-                );
+                        );
+    process  =	no.noise : hgroup("Equalizer", seq(i, 5, peakeq(500+500*i)));
 
 
 ### expressions
 
-```
-// random  = (_,12345:+) ~ (_,1103515245:*);    // core syntax
-// random  = _+12345 ~ _*1103515245;            // infix notation
-// random  = +(12345) ~ *(1103515245);          // prefix notation
+To end this lesson we would like to come back on how expressions are written in Faust. Let say that we want to multiply a signal by 0.5. We can write this in three different, but equivalent, ways depending if we are using the Faust core syntax, or infix notation or prefix notation, partial application.
 
-random  = +(12345) ~ *(1103515245);
+[SLIDE 50: type of notations]
 
-noise   = random/2147483647.0;
-
-process = noise * vslider("Volume[style:knob]", 0, 0, 1, 0.1) <: _,_;
-
-```
 
 
 
