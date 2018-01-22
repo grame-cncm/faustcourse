@@ -1,4 +1,4 @@
-## Lesson 7: Faust programs
+## Lesson 6: Faust programs
 
 In this lesson we will see in more details how faust programs are organized. Most of the programs we have seen so far where made of very few lines of code. But for larger programs we want to structure our code.
 
@@ -220,9 +220,11 @@ Let's do a simple equalizer by placing in sequence 5 peak equalizers
 
 ### expressions
 
-To end this lesson we would like to come back on how expressions are written in Faust. Let say that we want to multiply a signal by 0.5. We can write this in three different, but equivalent, ways depending if we are using the Faust core syntax, or infix notation or prefix notation, partial application.
+To end this lesson we would like to come back on how expressions are written in Faust. Let say that we want to multiply a signal by 0.5. We can write this in four different, but equivalent, ways. We can use Faust core syntax, infix notation, prefix notation, or partial application.
 
 [SLIDE 50: type of notations]
+
+In this slide we see the different notations of a very simple exmple, and how they are related to the core syntax.
 
 
 

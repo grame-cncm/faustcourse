@@ -1,4 +1,4 @@
-## Lesson 6: Programming by composition
+## Lesson 5: Programming by composition
 - BDA overview
 - priority (quiz: expressions equivalentes)
 - parallel ()
