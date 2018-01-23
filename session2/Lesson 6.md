@@ -79,7 +79,7 @@ File imports allow to import definitions from other source files. Most Faust pro
 
     import("stdfaust.lib");
 
-A Faust library itself is just a file with Faust code. The `import` statement that adds all the definitions of the imported file into the current program as if they where typed directly into the progam.
+A Faust library itself is just a file with Faust code. The `import` statement  adds all the definitions of the imported file into the current program as if they where typed directly into the progam. (like an include in C or C++)
 
 By convention Faust programs have the `.dsp` extension, while Faust libraries have the `.lib` extension. The main difference between a Faust program and a Faust library is that a library doesn't define `process`.
 
@@ -111,7 +111,7 @@ If we look inside `stdfaust.lib` we can see that it in turn imports all the stan
 
 `import` and `library` are somehow similar, as already explained `import` adds all the definitions of the imported file into the current program, while `library` creates an environment and imports all the definition in that environment.
 
-
+<< new lesson>>
 ### Function definitions and lambda expressions
 
 Definitions can have formal parameters to create user defined functions.
@@ -141,7 +141,7 @@ where the expression `\(f).(f/ma.SR : (+, 1 : fmod) ~ _)` is called a lambda exp
 
     process = \(f).(f/ma.SR : (+, 1 : fmod) ~ _)(440) * hslider("gain", 0, 0, 1, 0.01);
 
-Let's do a more involved example of function. We would like to create a function that takes a monophonic effet and adds a dry/wet control.
+Let's do a more involved example of function. We would like to create a function that takes a monophonic effect and adds a dry/wet control.
 
     import("stdfaust.lib");
 
@@ -157,8 +157,8 @@ The drywet function is an example of higher order function. It takes a circuit a
 
 ### pattern matching expressions
 
-Pattern matching is a very powerful mechanism to algorithmically generate Faust expressions.
-Let's say that you want to describe a function to duplicate an expression several times in parallel:
+Pattern matching is a very powerful mechanism to algorithmically generate Faust circuit.
+Let's say that you want to describe a function to duplicate an circuit several times in parallel:
 
     duplicate(1,x) = x;
     duplicate(n,x) = x, duplicate(n-1,x);
@@ -224,7 +224,7 @@ To end this lesson we would like to come back on how expressions are written in 
 
 [SLIDE 50: type of notations]
 
-In this slide we see the different notations of a very simple exmple, and how they are related to the core syntax.
+In this slide we see the different notations of a very simple example, and how they are related to the core syntax.
 
 
 

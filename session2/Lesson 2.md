@@ -16,6 +16,8 @@ We will present in greater details these composition operations in lesson 6.
 Before going into the details of all the primitives, let's first describe
 what are the signals that our audio circuits will manipulate.
 
+[Slide 8: Signals and Time model]
+
 Informally, a signal is a value that changes over time, for example the
 variation of air pressure producing a sound. In other words, a signal is a
 function transforming a time input into a value output. This value is
@@ -25,15 +27,15 @@ The full scale audio range for samples is typically a floating-point value
 between -1 and +1. But of course, Faust can manipulate signals of arbitrary
 ranges that can also be integer signals.
 
-[Slide 8: Signals and Time model]
+
 
 If we give a name to this signal for example s, then s(t) represents the
 value of the signal s at time t.
 
-Now let's define time a more precisely. Since we are interested in sampled
+Now let's define time more precisely. Since we are interested in sampled
 signals (also called discrete signal), here time is an integer. A signal is
 infinite both in the future and in the past but the value of time is 0 when the
-Faust program starts.
+Faust program starts. (a revoir)
 
 
 ### Wire
@@ -49,7 +51,7 @@ process = _;
 Before running this program, make sure that you set the audio level to the
 minimum. Otherwise, you may damage your loudspeakers, or worth, your ears!
 
-Now that you have set the audio volume to 0, starts the program and rise
+Now that you have set the audio volume to 0, starts the program and increase
 very slowly the volume to stay at the limit of the Larsen effect.
 
 So what is the semantics of `_` ? (Remember that _semantics_ is just a fancy
@@ -88,18 +90,19 @@ process = !,_;
 [QUIZ]
 Write a Faust program that represents a quadriphonic cable
 
-[SLIDE 12, QUIZ: A quadriphonic cable ?]
+[SLIDE 12, QUIZ: A quadraphonic cable ?]
 
 ```
 process = _,_,_,_;
 ```
-[SLIDE 13, ANSWER: A quadriphonic cable]
+[SLIDE 13, ANSWER: A quadraphonic cable]
 
 ### Elementary Signal Generators
 
 So far we have seen the wire and the cut primitives as well as two composition operators:
-the parallel composition and the sequential composition. Let's see now some signal generator primitives,
-that is audio circuits with no input signals.
+the parallel composition and the sequential composition.
+
+Let's see now some signal generator primitives: that is audio circuits with no input signals and one output signal.
 
 #### Numbers
 
@@ -112,6 +115,7 @@ Note that the values of the samples of the signal produced by the number 1 in
 Faust are all 0 before time 0.
 
 #### User Interface elements
+[SLIDE 15: UI widgets]
 User Interface elements like _buttons_, _checkbox_ and _sliders_ are also elementary signal generators.
 They all generate a signal according to user's actions.
 
@@ -119,7 +123,7 @@ A button generates a signal that is 0 when the button is not pressed and that is
 is pressed. Similarly, a checkbox generate a signal that is 0 when the checkbox is not checked and
 that is 1 while the checkbox is checked.
 
-[SLIDE 15: UI widgets]
+
 
 A slider delivers a signal that ranges between a minimum and a maximum value. It has five parameters:
 - The first one is the name of the slider as it is going to appear on the user interface, here "level".
@@ -134,7 +138,7 @@ There are two kind of sliders:
 - hslider is an horizontal slider
 - vslider is a vertical slider
 
-You can somehow listen to the sound produced by a slider:
+You can somehow listen to the sound produced by a slider (explain its an artfact):
 
 ```
 process = vslider("level", 0, -1, 1, 0.01);
@@ -266,7 +270,7 @@ Bla bla
 
 Bla bla
 
-### Min, Max and other functions
+### Min, Max and other functions (move after comparison)
 
 Other mathematical operations are available as primitives in Faust as shown on
 the screen.

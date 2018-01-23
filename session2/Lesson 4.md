@@ -21,12 +21,14 @@ A Bargraph has only three parameters: a label, a minimum value and a maximum val
 ### Groups
 [SLIDE 32: Horiz and Vert groups]
 
-Vertical, Horizontal and Tab groups provide a way to layout the widgets of a User Interface. The slide shows an example of a very simple user interface for a 8 channels mixer. The top level group is a horizontal layout. Inside this group we have height input channels, two vertical bargraphs and master control. Each channel has a level slider and a panoramic control.
+Vertical, Horizontal and Tab groups provide a way to layout the widgets of a User Interface. The slide shows an example of a very simple user interface for a 8 channels mixer. The top level group is a horizontal layout. Inside this group we have height input channels, two vertical bargraphs and master control. Each channel has a level slider and a panning control.
 
 ### Attaching bargraphs
+[SLIDE]
 The `attach` primitive takes two input signals and produce as output signal the first input signal. The role of attach is to force the second input signal to be compiled with the first one. From a mathematical point of view `attach(x,y)` is equivalent to `1*x+0*y`, which is in turn equivalent to `x`, but it tells the compiler not to optimize-out `y`.
 
 To illustrate the role of let say that we want to develop a mixer application with a vumeter for each input signals. Such vumeters can be easily coded in Faust using an envelop detector connected to a bargraph. The problem is that these envelop signals have no role in the output signals. Using `attach(x,vumeter(x))` one can tell the compiler that when x is compiled `vumeter(x)` should also be compiled.
+[DEMO]
 
 To recap the lesson:
 [SLIDE 33: UI recap]

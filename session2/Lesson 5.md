@@ -64,7 +64,7 @@ The split composition A<:B is used to distribute the outputs of A to the inputs 
 For the operation to be valid the number of inputs of B must be a multiple of the number of outputs of A.
 
 [QUIZ: Two Ways Stereo Splitter]
-This code splits a stereo cable into two stereo cables. Write the Faust code and draw the bloc-diagram corresponding.
+This code splits a stereo cable into two stereo cables. Write the Faust code and draw the corresponding bloc-diagram.
 
 [ANSWER: Two Ways Stereo Splitter]
 Here is the answer. First draw the two wires in parallel on the left side, then draw the four wires in parallel on the right, and then do the connections between them.
@@ -74,11 +74,12 @@ Here is the answer. First draw the two wires in parallel on the left side, then 
 
 [SLIDE 43: merge composition]
 
-The merge composition A:>B is the dual of the split composition. The number of outputs of A must be a multiple of the number of inputs of B. For example a merge composition can be realized between a A has four outputs and a B with two inputs. Note than when several output signals are merge into an input signals, the signals are added together. In other words, `_,_ :> _` is equivalent to `+`.
+The merge composition A:>B is the dual of the split composition. The number of outputs of A must be a multiple of the number of inputs of B. For example a merge composition can be implement between an A with four outputs and a B with two inputs. Note than when several output signals are merge into an input signals, the signals are added together. In other words, `_,_ :> _` is equivalent to `+`.
 
 [QUIZ: Add three signals together without using the + primitive]
 [ANSWER: Add three signals together without using the + primitive]
 
+<< new lesson>>
 
 ### Recursive composition
 

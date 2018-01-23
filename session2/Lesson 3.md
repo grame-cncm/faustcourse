@@ -30,12 +30,12 @@ Let's write a very simple example where the signal 1 is delayed by 1 second (ass
 process = 1, 44100 : @;
 ```
 
-We you will run the program you will here a click after 1 second due to the signal rising from 0 to 1. You will another click when you stop the program.
+We you will run the program you will here a click after 1 second due to the signal rising from 0 to 1. You will ear another click when you stop the program (*** explain***)
 
 There is a special notation to indicate a one sample delay : the apostrophe character (`'`).
-For example `1'` means one delay by 1 sample and is equivalent to `1:mem` and `1,1:@`.
+For example `1'` means one delay by 1 sample and is equivalent to `1:mem` and `1,1:@`. (slide)
 
-Using this notation we can produce a Dirac impulse a signal that is always 0 except at time 0 where it is 1:
+Using this notation we can produce a Dirac impulse, a signal that is always 0 except at time 0 where it is 1:
 
 ```
 dirac = 1-1';
@@ -51,8 +51,10 @@ dirac = 1-1';
 process = dirac, 44100 : @;
 ```
 
-You will now here a click after about 1 second.
+You will now here a click after about 1 second (but no click when yu stop).
 
+
+<< split into two lesson >>
 ### Read only table
 
 [Slide 29: read only table semantics]
