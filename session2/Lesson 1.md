@@ -1,16 +1,31 @@
 ## Lesson 1: Learning Faust
 
-In order to really master Faust, the following elements must be learned:
+This session is going to be a little more computer science oriented.
+But we will keep it as simple as possible and at the end you will
+have all the information required to really master Faust.
 
-[Slide 1: What it takes to learn Faust]
 
-* Primitives: the available build-in blocks so to speak
-* Syntax: how to assemble these primitives to create a program
-* Semantics: the meaning of the resulting program, what it does
-* Link between a Faust code, its graphical representation as a block-diagram,
-and its mathematical semantics as a function on signals
-* Libraries (lesson TODO)
-* Tooling, architectures, deployment (lesson TODO)
+[Slide 1: What you will learn in this session]
+
+This first lesson will give you a kind of overview of the session.
+Here is what you are going to learn:
+
+* You will learn the _primitives_ of the language, that is all the
+predefined build-in blocks on top of which your are going to build more
+complex programs
+* You will learn also the _syntax_ of the language, the rules that you need to
+follow to assemble these primitives in order to create well-defined programs.
+* You will learn the _bloc-diagram representation_ of a Faust program. Faust is a
+textual language but programs have a straight forward graphical representation.
+* You will learn the _semantics_ of the language: how to understand
+the meaning of a program, what it does (as you will see Faust programs are
+like audio circuits that produce and transform audio signals).
+* You will learn also how to navigate between all these different representations.
+At the begin, you will often start by drawing a bloc-diagram before coding it in Faust.
+
+There are others things that you will have to learn like _libraries_,
+_Tooling_, _architectures_, _deployment_ but you will discover them in the next
+sessions.
 
 Libraries and tooling will be covered in future lessons, here we'll focus on
 the first fours topics of this list.
