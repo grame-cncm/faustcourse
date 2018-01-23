@@ -1,4 +1,4 @@
-## Lesson 5: UI Primitives
+## Lesson 4: UI Primitives
 - buttons and sliders
 - bargraphs
 - groups
@@ -6,7 +6,7 @@
 
 In this lesson we are going to see how user interfaces can be described in Faust. We have already seen some of user interface elements in lesson 3. But there are additional ones like bargraphs that are used to display values, or numerical entries. Moreover, all these elements can be arranged vertically or horizontally using appropriate grouping schemes. Widgets and groups have a name. These names can contain additional information, called metadata, to customize their appearance or the way they are controlled.
 
-[SLIDE 30: UI widgets]
+[SLIDE 31: UI widgets]
 On this slide you can see various kind of widgets. On the left side you have a button, a checkbox, and a numerical entry. On the center you can see a vertical slider. And on the right,you can find an horizontal slider, and horizontal bargraph and a vertical slider with a knob style.
 
 ### Buttons and checkbox
@@ -16,20 +16,22 @@ Vertical and Horizontal sliders have five parameters: a label, a default value (
 
 Numerical entries are a more compact alternative to sliders and have the same five parameters.
 
-A Bargraph has only three parameters: a label, a minimum value and a maximum value. The role of a bargraph is to display the instantaneous value of the incoming signal clipped between the minimum and the maximum value. 
+A Bargraph has only three parameters: a label, a minimum value and a maximum value. The role of a bargraph is to display the instantaneous value of the incoming signal clipped between the minimum and the maximum value.
 
 ### Groups
-[SLIDE 31: Horiz and Vert groups]
+[SLIDE 32: Horiz and Vert groups]
 
-Vertical, Horizontal and Tab groups provide a way to layout the widgets of a User Interface. The slide shows an example of a very simple user interface for a 8 channels mixer. The top level group is a horizontal layout. Inside this group we have height input channels, two vertical bargraphs and master control. Each channel has a level slider and a panoramic control. 
+Vertical, Horizontal and Tab groups provide a way to layout the widgets of a User Interface. The slide shows an example of a very simple user interface for a 8 channels mixer. The top level group is a horizontal layout. Inside this group we have height input channels, two vertical bargraphs and master control. Each channel has a level slider and a panning control.
 
 ### Attaching bargraphs
+[SLIDE]
 The `attach` primitive takes two input signals and produce as output signal the first input signal. The role of attach is to force the second input signal to be compiled with the first one. From a mathematical point of view `attach(x,y)` is equivalent to `1*x+0*y`, which is in turn equivalent to `x`, but it tells the compiler not to optimize-out `y`.
 
 To illustrate the role of let say that we want to develop a mixer application with a vumeter for each input signals. Such vumeters can be easily coded in Faust using an envelop detector connected to a bargraph. The problem is that these envelop signals have no role in the output signals. Using `attach(x,vumeter(x))` one can tell the compiler that when x is compiled `vumeter(x)` should also be compiled.
+[DEMO]
 
 To recap the lesson:
-[SLIDE 32: UI recap]
+[SLIDE 33: UI recap]
 
 Button, checkbox, vslider, hslider and nentry are all signal generators that translates user actions into signals. The appearance of a slider can be transformed into a knob by inserting the metadata "...[style:knob]...".
 
@@ -37,4 +39,4 @@ vbargraph and hbargraph are used to display the incoming signal. Sometimes we do
 hgroup, vgroup and tgroup are used to layout the user interface.
 
 
- 
+
