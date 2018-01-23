@@ -82,7 +82,7 @@ just be set to 1.
 An example "patch" combining 2 of these modules could look like:
 
 ```
-simplePatch = dxOsc(freq0,index0,a0,d0,s0,r0,1) : dxOsc(freq0,index0,a0,d0,s0,r0);
+simplePatch = 1 : dxOsc(freq0,index0,a0,d0,s0,r0) : dxOsc(freq0,index0,a0,d0,s0,r0);
 ```
 
 Try to make a synthesizer with one patch combining at least 3 

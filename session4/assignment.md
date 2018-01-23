@@ -35,8 +35,7 @@ have selectable chords, etc.: your call!
 ## Exercise 2: Using Effects From the Libraries
 
 The goal of this exercise is to force you to look into the source code of the
-Faust libraries (available in the `/libraries` folder of the Faust 
-distribution).
+Faust libraries (available in the `/libraries` folder of TODO).
 
 First, explore the various effects from `demos.lib` 
 (<http://faust.grame.fr/library.html#effects-1>) and see how you can combine

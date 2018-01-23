@@ -16,7 +16,7 @@ NOTE: alternatively, this exercise could be done in Max/MSP.
 
 Use the looper/granulator from Session 4 to make a mobile app with 
 `faust2smartkeyb`. This app should work in a similar way than `toy.dsp` 
-(i.e., its interface shouldn't be an actual keyboard and sound should start
+(i.e., its interface shouldn't be an actual keyboard and sound should 
 being computed when the app is launched).
 
 Experiment with different accelerometer, gyroscope, touchscreen mappings to
