@@ -10,7 +10,7 @@
 ### Introduction
 In this lesson we are going to see the composition operations that are at the heart of the language.
 
-Faust is based on the idea of combining audio circuits together to form more complex ones. The way these circuits are combined is by using a set of five 'wiring' operations. Each of these operations takes two circuits and connects them in a particular way. These operations define a kind of "arithmetic" on circuits.
+Faust is based on the idea of combining audio circuits together to form more complex ones. The way these circuits are combined is by using a set of five composition operations. Each of these operations takes two circuits and wires them in a particular way. These operations define a kind of "arithmetic" on circuits.
 
 [SLIDE 34: composition operations]
 
@@ -79,7 +79,6 @@ The merge composition A:>B is the dual of the split composition. The number of o
 [QUIZ: Add three signals together without using the + primitive]
 [ANSWER: Add three signals together without using the + primitive]
 
-<< new lesson>>
 
 ### Recursive composition
 
