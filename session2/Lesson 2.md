@@ -78,10 +78,9 @@ For that, we use the _parallel composition_ operator represented by the `,`
 The primitive Cut, represented by the exclamation mark (`!`) can be used to cut-out a
 signal that we don't want to use.
 
-Let say that we have a stereo signal and that we only want to cut the left channel and keep the right channel.
-We can write the following program
-
-TODO
+Let say that we have a stereo signal and that we want to keep only the right channel.
+We can easily do that by placing in parallel a cut for the left channel and a wire for
+the right channel as in the following example:
 
 ```
 process = !,_;
@@ -90,7 +89,7 @@ process = !,_;
 [SLIDE 11: Keep only the right channel of a stereo cable]
 
 [QUIZ]
-Write a Faust program that represents a quadriphonic cable
+Write a Faust program that represents a quadraphonic cable
 
 [SLIDE 12, QUIZ: A quadraphonic cable ?]
 
