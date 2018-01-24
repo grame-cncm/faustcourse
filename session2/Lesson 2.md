@@ -1,6 +1,6 @@
 ## Lesson 2: Basic Faust Primitives
 
-In this lesson, we're going to look at most of Faust's primitives, the
+In this lesson, we're going to look at most of Faust's primitives which are
 built-in functions of the language. You can think of these primitives as
 elementary audio circuits. For example the Faust primitive `+` is an audio
 circuit with two input signals and one output signal.
@@ -23,7 +23,7 @@ variation of air pressure producing a sound. In other words, a signal is a
 function transforming a time input into a value output. This value is
 also called a sample.
 
-The full scale audio range for samples is typically a floating-point value
+By convention, the full scale audio range for samples is typically a floating-point value
 between -1 and +1. But of course, Faust can manipulate signals of arbitrary
 ranges that can also be integer signals.
 
@@ -39,7 +39,7 @@ Faust program starts. (a revoir)
 
 
 ### Wire
-Let start with the simplest primitive you can imagine: the _wire_. The Faust name
+Let start with the simplest primitive you can think of: the _wire_. The Faust name
 for a wire is `_` underscore, because somehow it looks like a wire !
 
 Let's write a FAUST program that uses a wire to connect the audio input to the audio output:
@@ -49,15 +49,15 @@ process = _;
 ```
 
 Before running this program, make sure that you set the audio level to the
-minimum. Otherwise, you may damage your loudspeakers, or worth, your ears!
+minimum. Otherwise, you may damage your loudspeakers, or worse, your ears!
 
-Now that you have set the audio volume to 0, starts the program and increase
-very slowly the volume to stay at the limit of the Larsen effect.
+Now that you have set the audio volume to 0, start the program and increase
+very slowly the volume to stay at the limit of hearing feedback.
 
 So what is the semantics of `_` ? (Remember that _semantics_ is just a fancy
 word for _meaning_). It is the _identity function_. The output signal
 produced by underscore is the same/identical as the input signal. In other words
-underscore is a _perfect_ cable that doesn't introduce any modification to
+underscore is a _perfect_ wire that doesn't introduce any modification to
 the input signal.
 
 [SLIDE 9]
@@ -71,7 +71,7 @@ How can we place two circuits in parallel ?
 
 [SLIDE 10: A cable made of two wires]
 
-We use for that the _parallel composition_ operator represented by the `,`
+For that, we use the _parallel composition_ operator represented by the `,`
 (comma) sign.
 
 ### Cut
@@ -80,6 +80,8 @@ signal that we don't want to use.
 
 Let say that we have a stereo signal and that we only want to cut the left channel and keep the right channel.
 We can write the following program
+
+TODO
 
 ```
 process = !,_;
@@ -127,18 +129,18 @@ that is 1 while the checkbox is checked.
 
 A slider delivers a signal that ranges between a minimum and a maximum value. It has five parameters:
 - The first one is the name of the slider as it is going to appear on the user interface, here "level".
-- The second one is the default value of the slider, the value that it delivers when the program starts,
+- The second one is the default value of the slider which is the value that it delivers when the program starts,
 here it is 0.1.
-- The third parameter is the minimum value, the lowest value the slider can deliver,
+- The third parameter is the minimum value which is the lowest value the slider can deliver,
 here 0.
-- The fourth one is the maximum value, the highest value the slider can deliver, here 1.
+- The fourth one is the maximum value which is the highest value the slider can deliver, here 1.
 - The fifth and last parameters is a step value, here 0.1.
 
 There are two kind of sliders:
 - hslider is an horizontal slider
 - vslider is a vertical slider
 
-You can somehow listen to the sound produced by a slider (explain its an artfact):
+You can somehow listen to the sound produced by a slider (explain its artifact):
 
 ```
 process = vslider("level", 0, -1, 1, 0.01);
@@ -176,7 +178,7 @@ process = _, (vslider("level", 0, 0, 100, 1), 100 : /) : * ;
 
 
 ### infix notation and syntactic sugar
-What about doing a simple multiplication between to numbers? Let's say 2 and 3. Here is the Faust program to write:
+What about doing a simple multiplication between two numbers? Let's say 2 and 3. Here is the Faust program to write:
 
 ```
 process = 2, 3 : * ;
@@ -197,8 +199,8 @@ All standard comparison operations on numbers are available in Faust.
 But there is an important difference between comparing numbers and signals.
 If we compare two numbers the result is either true or false.
 
-But what happen when we compare two signals that evolves in time ?
-The result is no more simply true or false, but will evolves in time according to the
+But what happens when we compare two signals that evolve in time ?
+The result is no more simply true or false, but will evolve in time according to the
 instantaneous values of the two signals we compare. In other words the result of comparing
 two signals is also a signal. The value of this signal is 1 when the result is true and 0
 otherwise.
@@ -224,7 +226,7 @@ When the threshold is 0, the condition is true during half the period and false 
 other half. The signal produced is a square wave in the range 0,1.
 
 When we increase the threshold the portion of samples at 1 will shrink until the
-threshold reach one. In this case the condition is always false and the signal produced is
+threshold reaches one. In this case the condition is always false and the signal produced is
 silence.
 
 

@@ -10,13 +10,13 @@
 ### Introduction
 In this lesson we are going to see the composition operations that are at the heart of the language.
 
-Faust is based on the idea of combining audio circuits together to form more complex ones. The way to combine these circuits is by using a set of five 'wiring' operations. Each of these operations takes two circuits and connects them in a particular way. These operations define a kind of "arithmetic" on circuits.
+Faust is based on the idea of combining audio circuits together to form more complex ones. The way these circuits are combined is by using a set of five 'wiring' operations. Each of these operations takes two circuits and connects them in a particular way. These operations define a kind of "arithmetic" on circuits.
 
 [SLIDE 34: composition operations]
 
-For example the sign column (:) is used for sequential composition. It connects all the outputs of the first circuit to the corresponding input of the second circuit. For this operation to take place, the number of outputs of the first circuit and the number of inputs of the second one must identical.
+For example the sign column (:) is used for sequential composition. It connects all the outputs of the first circuit to the corresponding input of the second circuit. For this operation to take place, the number of outputs of the first circuit and the number of inputs of the second one must be identical.
 
-Like in arithmetic expressions, composition operations have precedence rules that defines the order in which operations are done. These precedences have been fixed so that a sequence of parallel circuits, a very common structure, can be written without parenthesis.
+Like in arithmetic expressions, composition operations have precedence rules that define the order in which operations are done. These precedences have been fixed so that a sequence of parallel circuits which is a very common structure, can be written without parenthesis.
 
 The highest precedence operation is the recursive composition. It has precedence 4. Then we have the parallel composition (with precedence 3), then sequential composition (with precedence 2) and finally the split and merge compositions (with precedence 1).
 
@@ -40,7 +40,7 @@ process = + : *;
 
 When we try to run the program we get an error message:
 “Error in sequential composition (A:B).
-The number of outputs (1) of A = + must be equal to the number of inputs (2) of B : *"
+The number of outputs (1) of A = + must be equal to the number of inputs (2) of B : *
 
 ### Parallel composition
 
@@ -54,7 +54,7 @@ There are no constraints on the number of inputs and outputs of the circuits tha
 Using the wire and the cut primitives and the parallel composition, define a circuit that takes three input signals but outputs only the middle one.
 
 [ANSWER: select the middle signal among three]
-Here is the solution: we place in parallel a cut, a wire and another cut. In generale if we want to select one signal among n, we can create a circuit with n-1 cut and one wire.
+Here is the solution: we place in parallel a cut, a wire and another cut. In general if we want to select one signal among n, we can create a circuit with n-1 cut and one wire.
 
 ### Split composition
 
@@ -64,7 +64,7 @@ The split composition A<:B is used to distribute the outputs of A to the inputs 
 For the operation to be valid the number of inputs of B must be a multiple of the number of outputs of A.
 
 [QUIZ: Two Ways Stereo Splitter]
-This code splits a stereo cable into two stereo cables. Write the Faust code and draw the corresponding bloc-diagram.
+This code splits a stereo cable into two stereo cables. Write the Faust code and draw the corresponding block-diagram.
 
 [ANSWER: Two Ways Stereo Splitter]
 Here is the answer. First draw the two wires in parallel on the left side, then draw the four wires in parallel on the right, and then do the connections between them.
@@ -74,7 +74,7 @@ Here is the answer. First draw the two wires in parallel on the left side, then 
 
 [SLIDE 43: merge composition]
 
-The merge composition A:>B is the dual of the split composition. The number of outputs of A must be a multiple of the number of inputs of B. For example a merge composition can be implement between an A with four outputs and a B with two inputs. Note than when several output signals are merge into an input signals, the signals are added together. In other words, `_,_ :> _` is equivalent to `+`.
+The merge composition A:>B is the dual of the split composition. The number of outputs of A must be a multiple of the number of inputs of B. For example a merge composition can be implemented between an A with four outputs and a B with two inputs. Note than when several output signals are merged into an input signal, the signals are added together. In other words, `_,_ :> _` is equivalent to `+`.
 
 [QUIZ: Add three signals together without using the + primitive]
 [ANSWER: Add three signals together without using the + primitive]
@@ -84,7 +84,7 @@ The merge composition A:>B is the dual of the split composition. The number of o
 ### Recursive composition
 
 [SLIDE 46: recursive composition]
-The recursive composition allows to create feedback loops into a circuit. The condition for this operation to be possible is that the number of inputs of B must be less or equals to the number of output of A, and the number of outputs of B must be less or equal to the number of inputs of A.
+The recursive composition allows to create feedback loops into a circuit. The condition for this operation to be possible is that the number of inputs of B must be less or equal to the number of outputs of A, and the number of outputs of B must be less or equal to the number of inputs of A.
 
 SLIDE 47: valid/invalid recursive compositions]
 For example `+ ~ _` is a valid expressions because it respects these two conditions. But `_ ~ +` is not a valid expression because  `+` have two inputs while `_` provides only one output.
