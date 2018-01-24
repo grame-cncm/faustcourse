@@ -1,12 +1,7 @@
 # Session 5: Deploying Faust Programs
 
 One of the powers of Faust lies in its ability to turn Faust code into a large
-number of ready-to-use objects ranging from audio plug-ins to mobile apps. So
-far in this course, we saw how to do this using the export function of the
-online editor. While it is extremely convenient as it allows to use almost
-all the Faust targets without having to install something on your computer, it
-has some limitations. 
-
+number of ready-to-use objects ranging from audio plug-ins to mobile apps. 
 In this last session, we're going to dig in into the lower level features of 
 Faust. We'll give you an overview of the Faust ecosystem and of how things work
 under the hood. We'll give you some details on how DSP algorithms implemented
@@ -26,17 +21,26 @@ and allows us to export a Faust program to various plug-ins standards,
 standalones, unit generators, mobile and apps, and more. 
 
 In this quick lesson, we give an exhaustive overview of the Faust targets and
-we show you how to compile them on your computer and use them.
+we show you how to use them.
+
+[show slide 1]
+
+Here's an overview of the various targets that Faust currently supports. Some
+of them are completely cross platform while others are tight to a specific
+platform. For example, CoreAudio will only work on Apple devices.
 
 The remote compilation feature of the online editor is great as it allows us to 
 try the various Faust targets without installing the corresponding dependencies.
-For example, in order to compile a Faust program as a Max/MSP external, which we're
-about to do in this lesson, you should have the Max/MSP SDK/libraries 
-installed on your system. While the dependencies related to some platforms are
-relatively lightweight, others such as Android require you to install gigabytes
-of elements on your system. 
+For example, if you wanted to compile a Faust program as a Max/MSP external
+directly on your computer, you should have the Max/MSP SDK/libraries 
+installed on your system. While this course in general focuses on the use of the
+online editor, we'll briefly show you how to compile Faust objects directly on
+your computer at the end of this session. 
 
-However, in one specific case, remote compilation is not even possible. Indeed, 
+While the dependencies related to some platforms are relatively lightweight, 
+others such as Android require you to install gigabytes of elements on your system. 
+
+There's one specific case where remote compilation is not even possible. Indeed, 
 iOS apps can only be installed on a mobile device through XCode which defeats 
 the purpose of remotely compiling the app. In this case, the remote compiler
 will provide a ready to be compiled XCode project.
@@ -56,8 +60,6 @@ process = dm.zita_light;
 You probably remember that it hosts its own user interface elements so we don't
 have to add anything here.
 
-TODO: slide archs
-
 And then demo of caqt, VST, Max, and PD.
 
 ## Lesson 2: `faust2smartkeyb`: Making Smartphone Instruments
@@ -69,12 +71,13 @@ buttons don't always cover our needs. For example, let's say you want to
 turn the entire screen of the device into a continuous X/Y control surface,
 you wouldn't be able to do that with standard Faust UI elements. 
 
-The Faust distribution comes with a tool called `faust2smartkeyb` which can
+The Faust distribution comes with a tool called `faust2smartkeyb`, which we
+already used earlier in this course. It can
 be used to generate Android and iOS apps with an interface better suited to
 touchscreens and targeting skill transfer. Skill transfer consists of leveraging
 performers skills to facilitate the learning of a digital musical instrument.
 For example, if you're a guitar player, you might want your interface to have
-a pitch mapping similar to a fret board.
+a pitch mapping similar to a fretboard.
 
 In this lesson, we show you how to use `faust2smartkeyb` to make 
 mobile-device-based digital musical instruments. Things should work more or
@@ -115,8 +118,6 @@ Android.
 
 As you can see, we get an app with multiple keyboards in parallel controlling
 a simple synth that sounds a bit like a trumpet.
-
-[TODO: slide MIDI metadata, mention OSC] 
 
 Let's now have a look at the code. You can see that the synth is just a
 sawtooth wave going through a lowpass filter. The `freq`, `gain`, and `gate`
@@ -216,8 +217,11 @@ process = _~+(1);
 ```
 
 Let's implement a simple counter and plot it's output in the terminal. This
-code uses feedback to create a loop and add one at each sample. Let's export
-it using the plot target for the platform you're using, dow TODO finish
+code uses feedback to create a loop and adds one at each sample. Let's give it
+a name (`cnt.dsp`) and export it using the plot target for the platform you're 
+using.
+
+[show screen capture: do it]
 
 This generates a command line program named after the Faust file and that can
 be executed in the terminal.
@@ -256,8 +260,9 @@ import("stdfaust.lib");
 process = os.osc(440);
 ```
 
-Let's follow the same steps as previously and let's generate the octave code
-from the Faust file containing the first 1000 samples:
+Let's follow the same steps as previously to create an `osc` command line 
+application. Then let's generate the octave code from the Faust file containing 
+the first 1000 samples:
 
 ```
 ./osc -n 1000 > osc.m
@@ -276,8 +281,6 @@ octave --persist osc.m
 Note that any standard octave or matlab operations can be carried out on this
 signal. For example, its spectrogram could be plotted or we could just compute
 its Fast Fourier Transform.
-
-TODO: make spectrogram
 
 ## Lesson 4: `faust2api`: Marking DSP Engines Using Faust 
 
@@ -343,19 +346,7 @@ accessible:
 /synth/cutoff
 ```
 
-TODO: fix
-Let's save this code to a file (we're calling it `synth.dsp` here) and give
-it to `faust2api` in the terminal. As we said earlier, `faust2api` can be used
-to generate DSP engines for a wide range of platforms but here we want to make
-a DSP engine for Android.
-
-[show screen capture: run]
-
-```
-faust2api -android synth.dsp 
-```
-
-Let's run this!
+Let's name our code `synth.dsp` and export using the `api/android` target.
 
 We're getting a zip file containing all the source files needed to embed our 
 Faust object in the Android app as well as a markdown documentation specific to 
@@ -363,7 +354,7 @@ that object (`README.md`). We strongly recommend you to read it now.
 Additionally, we encourage you to check the `faust2api` documentation at this 
 point.
 
-TODO: add URL
+[show URL: <https://ccrma.stanford.edu/~rmichon/faust2api/>]
 
 The `java` folder in a zip file contains the JAVA portion of the API and 
 the `cpp` folder, its C++ portion. The JAVA package associated with this 
@@ -462,16 +453,8 @@ That's not all folks! `faust2api` also allows you to make polyphonic DSP
 engines and since our Faust code is already declaring the standard `freq`, 
 `gain`, and `gate` MIDI parameters, it is polyphony compatible. 
 
-TODO: fix api/android-poly
-
-Let's
-run `faust2api` again using the `-nvoices` option which adds polyphony support
-to the generated engine and allows for the specification of a maximum number of
-voices:
-
-```
-faust2api -android -nvoices 12 synth.dsp 
-```
+Let's go back to the online editor and export our code using the 
+`api/android-poly` target.
 
 Let's copy and paste the generated code into the Android app project as we did
 before. In practice, you can just copy the `.cpp` file since the name and 
@@ -486,7 +469,7 @@ dspFaust.keyOn(74,100);
 dspFaust.keyOn(77,100);
 ```
 
-Easy! Note that as in the online editor, a separate audio effect file can be
+Easy! Note that as we did in session 1 a separate audio effect file can be
 specified. We recommend you to check the `faust2api` doc to learn more about
 that.
 
@@ -498,7 +481,7 @@ The Faust ecosystem is pretty rich and varied. Many tools exist to write and
 compile Faust code. In this lesson, we try to give you an overview of the
 way Faust works in general and of the various tools that are associated to it.
 
-[show slide 1]
+[show slide 2]
 
 The Faust compiler can be used under different forms: as a command line tool,
 as a shared library, or as a JavaScript module. These last 2 cases allow 
@@ -508,7 +491,7 @@ as it is done for the online editor.
 The Faust compiler can convert Faust code into various lower level languages
 such as C, C++, JAVA, JavaScript, ASM JavaScript, WebAssembly, LLVM, and more. 
 
-[show slide 2]
+[show slide 3]
 
 In the C++ case, the generated code can be placed in a wrapper (also called
 architecture) that will turn it into a specific element such as an audio
@@ -518,7 +501,7 @@ works: the Faust code is sent to a remote server, the corresponding C++ code is
 generated and embedded in an architecture file and the corresponding C++ file
 is compiled and a binary object is returned. 
 
-[show slide 3]
+[show slide 4]
 
 In the LLVM case, things are a bit different. Indeed, LLVM bit code is much
 lower level than C++ and can be compiled to machine code on the fly,
@@ -526,7 +509,7 @@ which means that it allows to go straight from the Faust code to a binary
 without going through C++. The shared library version of the Faust compiler
 takes advantage of this feature to run Faust objects on the fly.
 
-[show slide 4]
+[show slide 5]
 
 WebAssembly, JavaScript, and ASM JavaScript offer more or less the same type
 of features and generated code can be compiled on the fly. This works
@@ -536,7 +519,7 @@ with the JavaScript version of the Faust compiler, and the generated webassembly
 code is fed directly intro a script processor node (or an Audio Worklet by the
 time your watching this video) to be executed in the browser. 
 
-[show slide 5]
+[show slide 6]
 
 Various more or less recent development tools based on these different versions 
 of the Faust compiler are available. FaustWorks is the oldest Faust IDE and
@@ -544,7 +527,7 @@ it is based on the command line version of Faust. It allows us to edit Faust
 code, visualize its corresponding block diagram and compile it using one of the
 targets installed on the system. 
 
-[show slide 6]
+[show slide 7]
 
 FaustLive is a more recent tool embedding the shared library version of the 
 Faust compiler offering the possibility to compile Faust code on the
@@ -572,6 +555,22 @@ Then there's a whole collection of platform related tools embedding the Faust
 compiler. For example, it is possible to write Faust code directly in Max,
 CSOUND, SuperCollider, JUCE VST Plug-Ins, ChucK, and more. 
 
+If the Faust command line compiler and associated tools are installed on your
+system, you'll get access to the same functionalities than the online editor
+but without having to connect to the internet. As mentioned earlier, even though
+this will give you access to more features and more control on the generated
+objects, it will require you to install the libraries and SDKs corresponding
+to the Faust targets you want to use. Just to show you, the Faust compiler
+can be called directly from the terminal to generate code and the Faust
+architectures available in the export function of the online editor can be used
+in the terminal through the various faust2 scripts installed on the system. 
+
+[show screen capture: do it]
+
+We purposely avoided these topics in this short course first because we believe that
+the future is in the web and because we think that the online editor solves 
+most of the platform related issues that we had in the past with Faust.
+
 To conclude this lesson, we just want to say a brief word on Faust code editing
 on a computer. Various code editors have syntax highlighting packages for Faust
 such as emacs but we strongly recommend you to use Atom.
@@ -596,32 +595,13 @@ import("stdfaust.lib");
 process = dm.zita_light;
 ```
 
-TODO: fix
-If we save this code in a file, say `reverb.dsp`, and then give it to the Faust
-compiler without specifying any other option, it will return the corresponding 
-C++ code directly in the terminal:
-
-[show screen capture: run]
-
-```
-faust reverb.dsp
-```
-
-To save it in a C++ file, we can just add the `-o` option followed by the name 
-of the file:
-
-[show screen capture: run]
-
-```
-faust reverb.dsp -o reverb.h
-```
-
-Note that the same result can be obtained using the online editor by choosing
-`source/c++` from the export menu.
+Let's call this program `reverb.dsp` and let's export it using the `source/C++`
+target of the online editor. We should get a zip file in return containing
+a file called `reverb.cpp`.
 
 Let's open `reverb.cpp` in a text editor and see what's in there. 
 
-[show screen capture: open reverb.h]
+[show screen capture: open reverb.cpp]
 
 The `mydsp` class hosts a series of methods to get information about the DSP
 object, to initialize it, or to run it. If we scroll down to the `public`
@@ -653,45 +633,3 @@ itself and its samples.
 
 If you look at the code in `compute`, you'll see that a for loop parses through
 the samples of the buffers and computes the result.
-
-   
-
-
-
-
-
-
-
-
-Note that this could all be done directly on your computer using the 
-`faust2smartkeyb` command line program if the Faust distribution is installed
-on your system.
-
-For instance, we could run this:
-
-[show screen capture: run]
-
-```
-faust2smartkeyb -android -source trumpet.dsp 
-```
-
-`-android` here could be replaced with `-ios` if we wanted to make an iOS app.
-The `-source` option is important as it asks the system to generate 
-an Android Studio (or XCode project for iOS) instead of compiling the app
-directly in the terminal. Compiling apps can take a lot of time because they
-must support various CPU architectures so compiling and installing the app
-directly from the IDE such as Android Studio or XCode can help us save a lot of
-time.
-
-
-Note that
-you can just run:
-
-```
-faust2smartkeyb -android -source -reuse trumpet.dsp 
-```
-
-using the `-reuse` option and your Android Studio or XCode project will be
-updated: you don't have to recompile everything every time: only the portion
-of your app that was modified will be recompiled. 
-
