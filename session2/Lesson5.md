@@ -1,140 +1,67 @@
 
-## Lesson 5: Programming by composition
-- BDA overview
-- priority (quiz: expressions equivalentes)
-- parallel ()
-- sequential
-- split
-- merge
-- recursion
+## Lesson 4: UI Primitives
 
-### Introduction
-In this lesson we are going to see the composition operations that are at the heart of the language.
+- buttons and sliders
+- bargraphs
+- groups
+- attach
 
-Faust is based on the idea of combining audio circuits together to form more complex ones. The way these circuits are combined is by using a set of five composition operations. Each of these operations takes two circuits and wires them in a particular way. These operations define a kind of "arithmetic" on circuits.
+In this lesson we are going to see how user interfaces can be described in Faust. We have already seen some of the user interface elements in lesson 3. But there are additional ones like bargraphs that are used to display values, or numerical entries. Moreover, all these elements can be arranged vertically or horizontally using appropriate grouping schemes. Widgets and groups have a name. These names can contain additional information, called metadata, to customize their appearance or the way they are controlled.
 
-[SLIDE 34: composition operations]
+Please note that this user interface description is an _abstract description_: the actual appearance of the UI elements and,
+the toolkit used for that, are not defined in the Faust code. The appearance of the user interface will be defined later by
+the architecture file.
 
-For example the sign column (:) is used for sequential composition. It connects all the outputs of the first circuit to the corresponding input of the second circuit. For this operation to take place, the number of outputs of the first circuit and the number of inputs of the second one must be identical.
-
-Like in arithmetic expressions, composition operations have precedence rules that define the order in which operations are done. These precedences have been fixed so that a sequence of parallel circuits which is a very common structure, can be written without parenthesis.
-
-The highest precedence operation is the recursive composition. It has precedence 4. Then we have the parallel composition (with precedence 3), then sequential composition (with precedence 2) and finally the split and merge compositions (with precedence 1).
-
-[SLIDE 35: composition operations precedence]
-Let see some examples. bla bla...
-
-Let's now review in details these five composition operations starting with the sequential composition.
-
-### Sequential composition
-
-[SLIDE 36: sequential composition]
-The sequential composition connects the outputs of A to the inputs of B. The first output of A is connected to the first input of B, etc. The number of outputs of A must be equal to the number of inputs of B otherwise the Faust compiler will flag an error.
-
-Let's see what happens if we try to connect `+` that has one output to `*` that has two inputs
-
-[**demo**]
-
-    process = + : *;
+In other words, there is a separation of concerns between the _abstract description_ of the user interface and its _actual
+implementation_. The advantage of this approach is that a same abstract description can be implemented in different manners.
+For example in many architectures we have at the same time, a graphical implementation, an OSC (Open Sound Control)
+implementation, a MIDI implementation and, some times even an HTTP implementation, allowing the application to be remotely controlled.
 
 
-When we try to run the program we get an error message:
-“Error in sequential composition (A:B).
-The number of outputs (1) of A = + must be equal to the number of inputs (2) of B : *
+[SLIDE 31: UI widgets]
+On this slide you can see various kind of widgets. On the left side you have a button, a checkbox, and a numerical entry. On the center you can see a vertical slider. And on the right,you can find an horizontal slider, and horizontal bargraph and a vertical slider with a knob style.
 
-### Parallel composition
+### Buttons and checkbox
+As you can see, buttons and checkboxes have only one parameter: a label. By default, a button generates a signal that is 0. It rises to 1 when the user presses the button and goes back to 0 when it releases it.
 
-[SLIDE 37: parallel composition]
+Vertical and Horizontal sliders have five parameters: a label, a default value (the value of the widget when the program starts), a minimum value, a maximum value and a step value. The signal produced reflects the action of the user on the thumb. Depending on the architecture, the step parameter might be used to quantize the produced values.
 
-The parallel composition is probably the simplest one. It places the two circuits one on top of the other, without connections. The inputs of the resulting circuit are the inputs of A and B in that order. The outputs of the resulting circuit are the outputs of A and B in that order. In this example the resulting circuit has 3 inputs and 3 outputs.
+Numerical entries are a more compact alternative to sliders and have the same five parameters.
 
-There are no constraints on the number of inputs and outputs of the circuits that can be composed in parallel.
+A Bargraph has only three parameters: a label, a minimum value and a maximum value. The role of a bargraph is to display the instantaneous value of the incoming signal clipped between the minimum and the maximum value.
 
-[QUIZ: select the middle signal among three]
-Using the wire and the cut primitives and the parallel composition, define a circuit that takes three input signals but outputs only the middle one.
+### Groups
+[SLIDE 32: Horiz and Vert groups]
 
-[ANSWER: select the middle signal among three]
-Here is the solution: we place in parallel a cut, a wire and another cut. In general if we want to select one signal among n, we can create a circuit with n-1 cut and one wire.
+Vertical, Horizontal and Tab groups provide a way to layout the widgets of a User Interface. The slide shows an example of a very simple user interface for a 8 channels mixer. The top level group is a horizontal layout. Inside this group we have eight input channels, two vertical bargraphs and master control. Each channel has a level slider and a panning control.
 
-### Split composition
+### Attaching bargraphs
+[SLIDE A FAIRE]
+The `attach` primitive takes two input signals and produce as output signal the first input signal. The role of attach is to force the second input signal to be compiled with the first one. From a mathematical point of view `attach(x,y)` is equivalent to `1*x+0*y`, which is in turn equivalent to `x`, but it tells the compiler not to optimize-out `y`.
 
-[SLIDE 40: split composition]
-
-The split composition A<:B is used to distribute the outputs of A to the inputs of B.
-For the operation to be valid the number of inputs of B must be a multiple of the number of outputs of A.
-
-[QUIZ: Two Ways Stereo Splitter]
-This code splits a stereo cable into two stereo cables. Write the Faust code and draw the corresponding block-diagram.
-
-[ANSWER: Two Ways Stereo Splitter]
-Here is the answer. First draw the two wires in parallel on the left side, then draw the four wires in parallel on the right, and then do the connections between them.
-
-
-### Merge composition
-
-[SLIDE 43: merge composition]
-
-The merge composition A:>B is the dual of the split composition. The number of outputs of A must be a multiple of the number of inputs of B. For example a merge composition can be implemented between an A with four outputs and a B with two inputs. Note than when several output signals are merged into an input signal, the signals are added together. In other words, `_,_ :> _` is equivalent to `+`.
-
-[QUIZ: Add three signals together without using the + primitive]
-[ANSWER: Add three signals together without using the + primitive]
-
-
-### Recursive composition
-
-[SLIDE 46: recursive composition]
-The recursive composition allows to create feedback loops into a circuit. The condition for this operation to be possible is that the number of inputs of B must be less or equal to the number of outputs of A, and the number of outputs of B must be less or equal to the number of inputs of A.
-
-SLIDE 47: valid/invalid recursive compositions]
-For example `+ ~ _` is a valid expressions because it respects these two conditions. But `_ ~ +` is not a valid expression because  `+` have two inputs while `_` provides only one output.
-
-[QUIZ 48: valid/invalid recursive compositions]
-[ANSWER 49: valid/invalid recursive compositions]
-
-### Examples
-
-#### Example 1: a noise generator
-
-In this example we are going to implement a white noise generator.
-
-[**demo**]
-
-    random  = +(12345) ~ *(1103515245);
-
-    noise   = random/2147483647.0;
-
-    process = noise * vslider("Volume[style:knob]", 0, 0, 1, 0.1) <: _,_;
-
-
-
-#### Example 2: a simple echo
-
-In this example we are going to implement a very simple echo. We will make use of the recursive composition to create the feedback in the circuit.
+To illustrate the role of `attach`, let say that we want to develop a mixer application with a vumeter for each input signals. Such vumeters can be easily coded in Faust using an envelop detector connected to a bargraph. The problem is that these envelop signals have no role in the output signals. Using `attach(x,vumeter(x))` one can tell the compiler that when x is compiled `vumeter(x)` should also be compiled.
 
 [**demo**]
 
     import("stdfaust.lib");
 
-    echo(d,f) = + ~ (@(d) : *(f));
-    process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : echo(44100/4, 0.75);
+    meter   = _ <: _, display : attach
+  			with {
+  				envelop = abs : min(1.00) : max ~ -(1.0/ma.SR);
+  				display = envelop : hbargraph("meter", 0, 1);
+			};
+
+    process = os.osc(440) : _ * hslider("level", 0, 0, 1, 0.001) : meter;
 
 
-Let's look at the resulting block-diagram
+[SLIDE 33: UI recap]
 
-#### Example 3 : a ping-pong stereo echo
-In this example we are creating a left-right ping pong echo. This can be easily implemented by having two echo in parallel for the left and right channel and slightly delay the right channel
+Let's recap this lesson on User Interface elements.
 
-[**demo**]
-
-    import("stdfaust.lib");
-
-    echo(d,f) = + ~ (@(d) : *(f));
-    pingpong(d,f) = echo(2*d,f) <: _, @(d);
-
-    process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : pingpong(44100/4, 0.75);
-
-
-
+Button, checkbox, vslider, hslider and nentry are all signal generators that translate user actions into signals. The appearance of a slider can be transformed into a knob by inserting the metadata "...[style:knob]...".
+vbargraph and hbargraph are used to display the incoming signal.
+Sometimes we don't want to use their output signal, we then have to attach it to a signal that we are really going to use.
+hgroup, vgroup and tgroup are used to layout the user interface.
 
 
 
