@@ -1,3 +1,5 @@
+# Session 2
+
 ## Lesson 1: Learning Faust
 
 This session is going to be a little bit more computer science oriented.
@@ -21,7 +23,7 @@ textual language but programs have a straight forward graphical representation.
 the meaning of a program, what it does (as you will see Faust programs are
 like audio circuits that produce and transform audio signals).
 * You will learn also how to navigate between all these different representations.
-At the beginning, you will often start by drawing a block-diagram before coding 
+At the beginning, you will often start by drawing a block-diagram before coding
 it in Faust.
 
 There are others things that you will have to learn like _libraries_,
@@ -37,10 +39,12 @@ primitive `abs` is another built-in operation that takes an input signal and
 computes the absolute value of each sample to produce the output signal.
 
 You can use the online editor to look at the block diagram corresponding to
-these primitives [do it: demo of `process = +;`/`process = abs;` in the editor].
+these primitives.
 
+[**demo**]
     process = +;
 
+[**demo**]
     process = abs;
 
 Primitives are the building blocks of Faust. You can think of them as the
@@ -84,4 +88,8 @@ You can now pause the video!
 
 [Slide 7: Quiz Answer]
 
-<Conclusion Lesson 1>
+This quiz concludes this first lesson of Session 2. You have now an idea
+of what you are going to learn in the next lessons. During the next lessons
+keep in mind the different representations that you can have of a Faust
+program: the code itself, is visual representation as a block-diagram and,
+its mathematical semantics.

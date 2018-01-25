@@ -171,19 +171,32 @@ operator `:`.
 Let say that we would like to express our level control as a value between 0 and 100, instead of 0 and 1.
 We will have to scale down the signal produced by the slider by 100.
 
+[**demo**]
 ```
 process = _, (vslider("level", 0, 0, 100, 1), 100 : /) : * ;
 ```
 
 
+### expressions
+
+To end this lesson we would like to come back on how expressions are written in Faust. Let say that we want to multiply a signal by 0.5. We can write this in four different, but equivalent, ways. We can use Faust core syntax, infix notation, prefix notation, or partial application.
+
+[SLIDE 50: type of notations]
+
+In this slide we see the different notations of a very simple example, and how they are related to the core syntax.
+
+
+
 ### infix notation and syntactic sugar
 What about doing a simple multiplication between two numbers? Let's say 2 and 3. Here is the Faust program to write:
 
+[**demo**]
 ```
 process = 2, 3 : * ;
 ```
 Sometimes it is more convenient to use the usual infix notation:
 
+[**demo**]
 ```
 process = 2*3;
 ```
@@ -217,6 +230,7 @@ Here is a small program that compares the value of a sine oscillator with a thre
 between 0 and 1, controlled by a slider. You will ear the resulting signal which is 1
 when the condition is true and 0 otherwise
 
+[**demo**]
 ```
 import("stdfaust.lib");
 process = os.oscsin(10), vslider("threshold", 0, 0, 1, 0.01) : >;
@@ -256,6 +270,7 @@ function.
 
 [Slide 22: Sine-Wave oscillator]
 
+[**demo**]
 ```
 phasor(f) = f/44100 : (+,1:fmod) ~_;
 process = phasor(440) * 6.28318530718 : sin;
@@ -289,6 +304,7 @@ As an example, a simple dirty distortion effect can be implemented using these
 2 primitives and a multiplication. Let's try to run it in the Faust online editor.
 WARNING: be careful if you're wearing as this might create feedback!
 
+[**demo**]
 ```
 gain = hslider("gain",0.05,0,1,0.01);
 process = *(100) : min(1) : max(-1) : *(gain);
