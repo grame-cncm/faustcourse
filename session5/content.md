@@ -53,7 +53,8 @@ Let's write a simple Faust program calling the `dm.zita_light` circuit that we
 used throughout this course.
 
 ```
-import("sdtfaust.lib");
+declare name "myreverb";
+import("stdfaust.lib");
 process = dm.zita_light;
 ```
 
