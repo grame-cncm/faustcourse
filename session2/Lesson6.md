@@ -1,5 +1,5 @@
 
-## Lesson 5: Programming by composition
+## Lesson 6: Programming by composition
 - BDA overview
 - priority (quiz: expressions equivalentes)
 - parallel ()
@@ -13,7 +13,7 @@ In this lesson we are going to see the composition operations that are at the he
 
 Faust is based on the idea of combining audio circuits together to form more complex ones. The way these circuits are combined is by using a set of five composition operations. Each of these operations takes two circuits and wires them in a particular way. These operations define a kind of "arithmetic" on circuits.
 
-[SLIDE 34: composition operations]
+[SLIDE 35: composition operations]
 
 For example the sign column (:) is used for sequential composition. It connects all the outputs of the first circuit to the corresponding input of the second circuit. For this operation to take place, the number of outputs of the first circuit and the number of inputs of the second one must be identical.
 
@@ -21,14 +21,14 @@ Like in arithmetic expressions, composition operations have precedence rules tha
 
 The highest precedence operation is the recursive composition. It has precedence 4. Then we have the parallel composition (with precedence 3), then sequential composition (with precedence 2) and finally the split and merge compositions (with precedence 1).
 
-[SLIDE 35: composition operations precedence]
+[SLIDE 36: composition operations precedence]
 Let see some examples. bla bla...
 
 Let's now review in details these five composition operations starting with the sequential composition.
 
 ### Sequential composition
 
-[SLIDE 36: sequential composition]
+[SLIDE 37: sequential composition]
 The sequential composition connects the outputs of A to the inputs of B. The first output of A is connected to the first input of B, etc. The number of outputs of A must be equal to the number of inputs of B otherwise the Faust compiler will flag an error.
 
 Let's see what happens if we try to connect `+` that has one output to `*` that has two inputs
@@ -44,7 +44,7 @@ The number of outputs (1) of A = + must be equal to the number of inputs (2) of 
 
 ### Parallel composition
 
-[SLIDE 37: parallel composition]
+[SLIDE 38: parallel composition]
 
 The parallel composition is probably the simplest one. It places the two circuits one on top of the other, without connections. The inputs of the resulting circuit are the inputs of A and B in that order. The outputs of the resulting circuit are the outputs of A and B in that order. In this example the resulting circuit has 3 inputs and 3 outputs.
 
@@ -58,7 +58,7 @@ Here is the solution: we place in parallel a cut, a wire and another cut. In gen
 
 ### Split composition
 
-[SLIDE 40: split composition]
+[SLIDE 41: split composition]
 
 The split composition A<:B is used to distribute the outputs of A to the inputs of B.
 For the operation to be valid the number of inputs of B must be a multiple of the number of outputs of A.
@@ -72,7 +72,7 @@ Here is the answer. First draw the two wires in parallel on the left side, then 
 
 ### Merge composition
 
-[SLIDE 43: merge composition]
+[SLIDE 44: merge composition]
 
 The merge composition A:>B is the dual of the split composition. The number of outputs of A must be a multiple of the number of inputs of B. For example a merge composition can be implemented between an A with four outputs and a B with two inputs. Note than when several output signals are merged into an input signal, the signals are added together. In other words, `_,_ :> _` is equivalent to `+`.
 
@@ -82,14 +82,14 @@ The merge composition A:>B is the dual of the split composition. The number of o
 
 ### Recursive composition
 
-[SLIDE 46: recursive composition]
+[SLIDE 47: recursive composition]
 The recursive composition allows to create feedback loops into a circuit. The condition for this operation to be possible is that the number of inputs of B must be less or equal to the number of outputs of A, and the number of outputs of B must be less or equal to the number of inputs of A.
 
-SLIDE 47: valid/invalid recursive compositions]
+[SLIDE 48: valid/invalid recursive compositions]
 For example `+ ~ _` is a valid expressions because it respects these two conditions. But `_ ~ +` is not a valid expression because  `+` have two inputs while `_` provides only one output.
 
-[QUIZ 48: valid/invalid recursive compositions]
-[ANSWER 49: valid/invalid recursive compositions]
+[QUIZ 49: valid/invalid recursive compositions]
+[ANSWER 50: valid/invalid recursive compositions]
 
 ### Examples
 
@@ -134,7 +134,7 @@ In this example we are creating a left-right ping pong echo. This can be easily 
     process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : pingpong(44100/4, 0.75);
 
 
-
+This example concludes lesson 6 !
 
 
 

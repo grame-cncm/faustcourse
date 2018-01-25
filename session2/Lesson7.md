@@ -1,5 +1,5 @@
 
-## Lesson 6: Faust programs
+## Lesson 7: Faust programs
 
 In this lesson we will see in more details how faust programs are organized. Most of the programs we have seen so far were made of a very few lines of code. But for larger programs we want to better structure our code.
 

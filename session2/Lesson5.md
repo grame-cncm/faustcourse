@@ -1,5 +1,5 @@
 
-## Lesson 4: UI Primitives
+## Lesson 5: UI Primitives
 
 - buttons and sliders
 - bargraphs
@@ -18,7 +18,7 @@ For example in many architectures we have at the same time, a graphical implemen
 implementation, a MIDI implementation and, some times even an HTTP implementation, allowing the application to be remotely controlled.
 
 
-[SLIDE 31: UI widgets]
+[SLIDE 32: UI widgets]
 On this slide you can see various kind of widgets. On the left side you have a button, a checkbox, and a numerical entry. On the center you can see a vertical slider. And on the right,you can find an horizontal slider, and horizontal bargraph and a vertical slider with a knob style.
 
 ### Buttons and checkbox
@@ -31,7 +31,7 @@ Numerical entries are a more compact alternative to sliders and have the same fi
 A Bargraph has only three parameters: a label, a minimum value and a maximum value. The role of a bargraph is to display the instantaneous value of the incoming signal clipped between the minimum and the maximum value.
 
 ### Groups
-[SLIDE 32: Horiz and Vert groups]
+[SLIDE 33: Horiz and Vert groups]
 
 Vertical, Horizontal and Tab groups provide a way to layout the widgets of a User Interface. The slide shows an example of a very simple user interface for a 8 channels mixer. The top level group is a horizontal layout. Inside this group we have eight input channels, two vertical bargraphs and master control. Each channel has a level slider and a panning control.
 
@@ -54,7 +54,7 @@ To illustrate the role of `attach`, let say that we want to develop a mixer appl
     process = os.osc(440) : _ * hslider("level", 0, 0, 1, 0.001) : meter;
 
 
-[SLIDE 33: UI recap]
+[SLIDE 34: UI recap]
 
 Let's recap this lesson on User Interface elements.
 

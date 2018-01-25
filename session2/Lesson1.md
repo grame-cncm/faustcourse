@@ -2,14 +2,15 @@
 
 ## Lesson 1: Learning Faust
 
-This session is going to be a little bit more computer science oriented.
-But we will keep it as simple as possible and at the end you will
-have all the information required to really master Faust.
+Welcome to session 2. This session is going to be a little bit more
+computer science oriented. But we will keep it as simple as possible.
+At the end of this session you will have all the information required
+to program in Faust.
 
 
 [Slide 1: What you will learn in this session]
 
-This first lesson will give you a kind of overview of the session.
+This first lesson will give you a kind of overview of session 2.
 Here is what you are going to learn:
 
 * You will learn the _primitives_ of the language, which are the
@@ -33,9 +34,12 @@ sessions.
 [Slide 2: primitives are built-in operations of the language]
 
 A primitive is an elementary built-in operation of the language. For example,
-the primitive `+` takes two input
-signals and adds their samples together to produce the output signal. The
-primitive `abs` is another built-in operation that takes an input signal and
+the primitive `+` takes two input signals and adds their samples together to
+produce the output signal. Don't be afraid by the formulas. It just says
+that the value of output signal `y` at time `t`is equal to the sum of the
+values of the two input signals `x0`and `x1` at time `t`.
+
+The primitive `abs` is another built-in operation that takes an input signal and
 computes the absolute value of each sample to produce the output signal.
 
 You can use the online editor to look at the block diagram corresponding to
@@ -49,11 +53,11 @@ these primitives.
 
     process = abs;
 
+[Slide 3: primitives are like components of an audio circuit]
+
 Primitives are the building blocks of Faust. You can think of them as the
 elementary components (resistors, transistors, etc.) of an electronic circuit.
 There are currently about 60 different primitives predefined in the language.
-
-[Slide 3: primitives are like components of an audio circuit]
 
 _Syntax_ and _Semantics_ are two important concepts when learning any
 programming language. The _syntax_ is the rule for writing programs, while

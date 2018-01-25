@@ -1,7 +1,7 @@
 
 ## Lesson 2: Basic Faust Primitives
 
-In this lesson, we're going to look at most of Faust's primitives which are
+In this lesson, we'll start looking at Faust's primitives which are
 built-in functions of the language. You can think of these primitives as
 elementary audio circuits. For example the Faust primitive `+` is an audio
 circuit with two input signals and one output signal.
@@ -27,7 +27,6 @@ also called a sample.
 By convention, the full scale audio range for samples is typically a floating-point value
 between -1 and +1. But of course, Faust can manipulate signals of arbitrary
 ranges that can also be integer signals.
-
 
 
 If we give a name to this signal for example s, then s(t) represents the
@@ -145,3 +144,6 @@ You can somehow listen to the sound produced by a slider (explain its artifact):
 ```
 process = vslider("level", 0, -1, 1, 0.01);
 ```
+
+This example concludes Lesson 2. We have seen some very simples primitives like `wire` and `cut` as well as elementary signal generators. In the next lesson we will see more
+primitives, in particular arithmetic operations on signals.

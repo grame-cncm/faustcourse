@@ -1,19 +1,19 @@
 
-## Lesson 3: Delays and tables
+## Lesson 4: Delays and tables
 
-[Slide 27: Delays and Tables]
+Welcome to lesson 4. The primitives we have seen so far are essentially straight forward
+extensions of mathematical operations on numbers to signals. In this lesson we will see specific primitives that deal with time!
 
-The primitives we have seen so far are essentially straight forward extensions
-of mathematical operations on numbers to signals.
+[Slide 28: Delays and Tables]
 
-In this lesson we will see specific primitives that deal with time: delay lines (`mem`and `@`)
+There are four specific primitives that deal with time: delay lines (`mem`and `@`)
 and read-only tables (`rdtable`) and read-write tables (`rwtable`).
 
 ### delay lines
 
 Let's start with the delay lines:
 
-[Slide 28: Delays semantics]
+[Slide 29: Delays semantics]
 
 The primitive `mem` represents a 1-sample delay. The output signal is the input
 signal delayed by 1 sample.
@@ -62,7 +62,7 @@ You will now here a click after about 1 second (but no click when you stop).
 
 ### Read only table
 
-[Slide 29: read only table semantics]
+[Slide 30: read only table semantics]
 
 A read table takes three input signals. The first one is a constant signal that
 defines the size of the table. The second one defines the content of the table.
@@ -81,7 +81,7 @@ the reading index makes use of the tilde operator that we haven't seen yet.
 
 ### Read-Write table
 
-[Slide 30: read write table semantics]
+[Slide 31: read write table semantics]
 
 A read-write table is an extension of the read only table with two extra input signals:
 a write index and a signal to write in the table.

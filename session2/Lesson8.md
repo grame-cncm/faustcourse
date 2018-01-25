@@ -1,7 +1,7 @@
 
-## Lesson 7 : User Defined Function
+## Lesson 8 : User Defined Function
 
-In this lesson we are going into more details regarding function definitions.
+Welcome to lesson 8. In this last lesson we are going into more details regarding function definitions.
 
 
 ### Function definitions and lambda expressions
@@ -94,7 +94,7 @@ Here is another example to count the number of elements of a list. Please note t
 
 Please note that the order of pattern matching rules matters. The more specific rules must precede the more general rules.
 
-Here is a more involved example. We would like to create a reverse echo where echo increases in volume instead of decreasing. We can't use a simple feedback loop like for the regular echo, but we can build the circuit algorithimically using pattern matching
+Here is a more involved example. We would like to create a reverse echo where echo increases in volume instead of decreasing. We can't use a simple feedback loop like for the regular echo, but we can build the circuit algorithmically using pattern matching
 
 [**demo**]
 
@@ -131,7 +131,7 @@ Let's do a simple equalizer by placing in sequence 5 peak equalizers
     process  =	no.noise : hgroup("Equalizer", seq(i, 5, peakeq(500+500*i)));
 
 
-
+This example concludes the Lesson 8 and Session 2
 
 
 

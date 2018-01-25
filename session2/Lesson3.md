@@ -1,8 +1,6 @@
-## Lesson 2bis
+## Lesson 3
 
-Welcome to lesson 3. In this lesson, we're going to look at additional primitives, in particular arithmetic
-operations on signals. For example the Faust primitive `+` is an audio circuit with
-two input signals and one output signal.
+Welcome to lesson 3. In this lesson, we're going to look at additional primitives, in particular arithmetic operations on signals, like addition, multiplication of signals and much more.
 
 ### Arithmetic
 
@@ -10,14 +8,13 @@ two input signals and one output signal.
 
 All standard arithmetic operations on numbers exist in Faust as operations on signals.
 
-
-
 For instance, signals can be summed, subtracted, multiplied, raised to the
 power, divided, take the modulo of one signal by the other.
 
 As an example let's do a simple _volume control_ by assembling three primitives: a wire,
 a vertical slider and a multiplication.
 
+[Slide 17: A simple volume control]
 
 [**demo**]
 
@@ -30,40 +27,31 @@ operator `:`.
 
 ### Core Notation vs Infix Notation
 
-Let say that we would like to express our level control as a value between 0 and 100, instead of 0 and 1.
-We will have to scale down the signal produced by the slider by 100.
+Let say that we would like to express our level control as a value between 0 and 100, instead of 0 and 1. We will have to scale down the signal produced by the slider by 100.
 
 [**demo**]
 
     process = _, (vslider("level", 0, 0, 100, 1), 100 : /) : * ;
 
-
-
-### expressions
-
-To end this lesson we would like to come back on how expressions are written in Faust. Let say that we want to multiply a signal by 0.5. We can write this in four different, but equivalent, ways. We can use Faust core syntax, infix notation, prefix notation, or partial application.
-
-[SLIDE 50: type of notations]
-
-In this slide we see the different notations of a very simple example, and how they are related to the core syntax.
-
-
-
-### infix notation and syntactic sugar
-What about doing a simple multiplication between two numbers? Let's say 2 and 3. Here is the Faust program to write:
+The notation used here (called the core notation) starts to be a bit complex. But you
+can use a more usual _infix_ notation as in this example:
 
 [**demo**]
 
-    process = 2, 3 : * ;
+    process = _, vslider("level", 0, 0, 100, 1) / 100 : * ;
 
-Sometimes it is more convenient to use the usual infix notation:
+Or even:
 
 [**demo**]
 
-    process = 2*3;
+    process = _ * vslider("level", 0, 0, 100, 1) / 100 ;
 
+All these examples are equivalent. It is really a matter of taste et readability.
 
-But this is just syntactic sugar for the core notation
+[SLIDE 18: type of notations]
+
+This slide summarizes the different notations you can use, and how they are translated
+into core syntax.
 
 
 
@@ -79,14 +67,14 @@ instantaneous values of the two signals we compare. In other words the result of
 two signals is also a signal. The value of this signal is 1 when the result is true and 0
 otherwise.
 
-[Slide 18: Comparison Operations]
+[Slide 19: Comparison Operations]
 
 You can compare 2 signals to see when one is smaller than the other, smaller
 or equal, greater, greater or equal, equal, and different.
 
 The semantics of greater than comparison is illustrated in the following slide:
 
-[Slide 19: Comparison Semantics]
+[Slide 20: Comparison Semantics]
 
 Here is a small program that compares the value of a sine oscillator with a threshold
 between 0 and 1, controlled by a slider. You will ear the resulting signal which is 1
@@ -110,7 +98,7 @@ silence.
 As for arithmetic and comparison operations, most standard bitwise operations
 on integers are available in Faust.
 
-[Slide 20: Bitwise operations]
+[Slide 21: Bitwise operations]
 
 The `&`, `|`, and `xor` are typically used to combine the result of comparison
 operations. The left and right shift operations are less commonly used but
@@ -122,7 +110,7 @@ samples.
 Most standard trigonometric operations can be carried out in Faust as shown on
 the screen.
 
-[Slide 21: Trigonometric functions]
+[Slide 22: Trigonometric functions]
 
 For instance, we can take the arc cosine of a signal, its arc sine, arc
 tangent, arc tangent on 2 signals, cosine, sine, and tangent.
@@ -130,7 +118,7 @@ tangent, arc tangent on 2 signals, cosine, sine, and tangent.
 Let's create a sine wave oscillator from scratch to show the usage of the sine or cosine
 function.
 
-[Slide 22: Sine-Wave oscillator]
+[Slide 23: Sine-Wave oscillator]
 
 [**demo**]
 
@@ -144,7 +132,7 @@ We start by defining a `phasor`, a phase generator that produces a periodic sawt
 
 Bla bla
 
-[Slide 23: Log and Exponential]
+[Slide 24: Log and Exponential]
 
 Bla bla
 
@@ -153,14 +141,14 @@ Bla bla
 Other mathematical operations are available as primitives in Faust as shown on
 the screen.
 
-[Slide 24: Min, Max and other functions]
+[Slide 25: Min, Max and other functions]
 
 Let's take a look at 2 very useful primitives: min and max. Min compares 2
 input signals and always output the sample with the smallest value. Inversely
 max compares 2 input signals and always output the sample with the greatest
 value.
 
-[Slide 25: Max and Min semantics]
+[Slide 26: Max and Min semantics]
 
 As an example, a simple dirty distortion effect can be implemented using these
 2 primitives and a multiplication. Let's try to run it in the Faust online editor.
@@ -182,12 +170,19 @@ in order for the output signal to not be inferior to -1.
 
 ### Selectors and Casting Functions
 
-[SLIDE 26: Selectors and Casting Functions]
+[SLIDE 27: Selectors and Casting Functions]
+
+Selectors are used to select between signals. For example the `select2` primitive
+has 3 input signals. The first one is the selector signal and it is used to select between the two other signals depending on its value 0 or 1.
+
+Let see an example:
 
 [**demo**]
 
     import("stdfaust.lib");
     process = 	button("440/880"), os.osc(440), os.osc(880) : select2;
+
+The `select3` primitive is just an extension of the `select2` as demonstrated in the following example:
 
 [**demo**]
 
@@ -198,4 +193,11 @@ in order for the output signal to not be inferior to -1.
                 os.osc(440*4)
                 : select3;
 
+In this example we use a slider to select the signal we want to ear. The selection signal is
+produced by a slider. It is therefore a floating point signal that is converted into an
+integer signal using the `int` operator. The reverse operation is also possible. An integer
+signal can be converted into a floating point signal using the `float` primitive.
 
+
+This example concludes lesson 3. In the next lesson we are going to see the time related
+primitives, in particular the delay operation.
