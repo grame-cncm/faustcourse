@@ -1,3 +1,4 @@
+
 ## Lesson 5: Programming by composition
 - BDA overview
 - priority (quiz: expressions equivalentes)
@@ -30,13 +31,12 @@ Let's now review in details these five composition operations starting with the 
 [SLIDE 36: sequential composition]
 The sequential composition connects the outputs of A to the inputs of B. The first output of A is connected to the first input of B, etc. The number of outputs of A must be equal to the number of inputs of B otherwise the Faust compiler will flag an error.
 
-[DEMO]
-
 Let's see what happens if we try to connect `+` that has one output to `*` that has two inputs
 
-```
-process = + : *;
-```
+[**demo**]
+
+    process = + : *;
+
 
 When we try to run the program we get an error message:
 “Error in sequential composition (A:B).
@@ -97,45 +97,44 @@ For example `+ ~ _` is a valid expressions because it respects these two conditi
 
 In this example we are going to implement a white noise generator.
 
-```
-// random  = (_,12345:+) ~ (_,1103515245:*);    // core syntax
-// random  = _+12345 ~ _*1103515245;            // infix notation
-// random  = +(12345) ~ *(1103515245);          // prefix notation
+[**demo**]
 
-random  = +(12345) ~ *(1103515245);
+    random  = +(12345) ~ *(1103515245);
 
-noise   = random/2147483647.0;
+    noise   = random/2147483647.0;
 
-process = noise * vslider("Volume[style:knob]", 0, 0, 1, 0.1) <: _,_;
+    process = noise * vslider("Volume[style:knob]", 0, 0, 1, 0.1) <: _,_;
 
-```
+
 
 #### Example 2: a simple echo
 
 In this example we are going to implement a very simple echo. We will make use of the recursive composition to create the feedback in the circuit.
 
-```
-import("stdfaust.lib");
+[**demo**]
 
-echo(d,f) = + ~ (@(d) : *(f));
-process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : echo(44100/4, 0.75);
+    import("stdfaust.lib");
 
-```
+    echo(d,f) = + ~ (@(d) : *(f));
+    process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : echo(44100/4, 0.75);
+
 
 Let's look at the resulting block-diagram
 
 #### Example 3 : a ping-pong stereo echo
 In this example we are creating a left-right ping pong echo. This can be easily implemented by having two echo in parallel for the left and right channel and slightly delay the right channel
 
-```
-import("stdfaust.lib");
+[**demo**]
 
-echo(d,f) = + ~ (@(d) : *(f));
-pingpong(d,f) = echo(2*d,f) <: _, @(d);
+    import("stdfaust.lib");
 
-process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : pingpong(44100/4, 0.75);
+    echo(d,f) = + ~ (@(d) : *(f));
+    pingpong(d,f) = echo(2*d,f) <: _, @(d);
 
-```
+    process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : pingpong(44100/4, 0.75);
+
+
+
 
 
 

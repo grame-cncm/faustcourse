@@ -1,4 +1,6 @@
+
 ## Lesson 3: Delays and tables
+
 [Slide 27: Delays and Tables]
 
 The primitives we have seen so far are essentially straight forward extensions
@@ -8,6 +10,7 @@ In this lesson we will see specific primitives that deal with time: delay lines 
 and read-only tables (`rdtable`) and read-write tables (`rwtable`).
 
 ### delay lines
+
 Let's start with the delay lines:
 
 [Slide 28: Delays semantics]
@@ -26,9 +29,10 @@ Please note that the delay amount must always be positive `x1(t) ≥ 0`. A negat
 
 Let's write a very simple example where the signal 1 is delayed by 1 second (assuming a sampling of 44100)
 
-```
-process = 1, 44100 : @;
-```
+[**demo**]
+
+    process = 1, 44100 : @;
+
 
 When you will run the program you will here a click after 1 second due to the signal rising from 0 to 1. You will ear another click when you stop the program (*** explain***)
 
@@ -37,24 +41,25 @@ For example `1'` means one delay by 1 sample and is equivalent to `1:mem` and `1
 
 Using this notation we can produce a Dirac impulse, a signal that is always 0 except at time 0 where it is 1:
 
-```
-dirac = 1-1';
-process = dirac;
-```
+[**demo**]
+
+    dirac = 1-1';
+    process = dirac;
+
 
 When you run the program you will ear a click right at the beginning. As it will go back to 0 after 1 sample, you will not ear any click when you stop the program.
 
 We can delay the Dirac impulse by 44100 samples:
 
-```
-dirac = 1-1';
-process = dirac, 44100 : @;
-```
+[**demo**]
+
+    dirac = 1-1';
+    process = dirac, 44100 : @;
+
 
 You will now here a click after about 1 second (but no click when you stop).
 
 
-<< split into two lesson >>
 ### Read only table
 
 [Slide 29: read only table semantics]
@@ -67,11 +72,12 @@ Let's do a simple example. We are going to fill a read only table with a dirac i
 read it using a periodic index signal from 0 to 4095. Note that the phase signal used as
 the reading index makes use of the tilde operator that we haven't seen yet.
 
-```
-dirac = 1-1';
-phase = 1 : +~_ : &(4095);
-process = 4096, dirac, phase : rdtable;
-```
+[**demo**]
+
+    dirac = 1-1';
+    phase = 1 : +~_ : &(4095);
+    process = 4096, dirac, phase : rdtable;
+
 
 ### Read-Write table
 
@@ -90,8 +96,3 @@ index `x2(t)` the value of `x3(t)`. Then the table is read at index `x4(t)`.
 
 The behavior of read-write tables is a little bit complex. You will see a practical example
 of use of the read-write table at the end of session 4.
-
-
-
-
-

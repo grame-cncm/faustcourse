@@ -42,9 +42,11 @@ You can use the online editor to look at the block diagram corresponding to
 these primitives.
 
 [**demo**]
+
     process = +;
 
 [**demo**]
+
     process = abs;
 
 Primitives are the building blocks of Faust. You can think of them as the
@@ -89,7 +91,5 @@ You can now pause the video!
 [Slide 7: Quiz Answer]
 
 This quiz concludes this first lesson of Session 2. You have now an idea
-of what you are going to learn in the next lessons. During the next lessons
-keep in mind the different representations that you can have of a Faust
-program: the code itself, is visual representation as a block-diagram and,
-its mathematical semantics.
+of what you are going to learn in the next lessons of this session.
+

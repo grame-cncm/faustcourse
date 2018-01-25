@@ -1,4 +1,6 @@
-## Lesson 7 : function declaration
+
+## Lesson 7 : User Defined Function
+
 In this lesson we are going into more details regarding function definitions.
 
 
@@ -7,11 +9,15 @@ In this lesson we are going into more details regarding function definitions.
 Definitions can have formal parameters to create user defined functions.
 Let's take an example:
 
+[**demo**]
+
     import("stdfaust.lib");
     wave = 440/ma.SR : (+, 1 : fmod) ~ _;
     process = wave * hslider("gain", 0, 0, 1, 0.01);
 
 In this example wave has a fixed frequency of 440 Hz. But we would like to have a more general definition with a frequency parameter that we can specify when we use wave.
+
+[**demo**]
 
     import("stdfaust.lib");
 
@@ -20,6 +26,8 @@ In this example wave has a fixed frequency of 440 Hz. But we would like to have 
 
 Please note that this is equivalent to :
 
+[**demo**]
+
     import("stdfaust.lib");
 
     wave    = \(f).(f/ma.SR : (+, 1 : fmod) ~ _);
@@ -27,11 +35,15 @@ Please note that this is equivalent to :
 
 where the expression `\(f).(f/ma.SR : (+, 1 : fmod) ~ _)` is called a lambda expression. You can think of a lambda expression has an anonymous function. Lambda expressions can be used directly as in the following example:
 
+[**demo**]
+
     import("stdfaust.lib");
 
     process = \(f).(f/ma.SR : (+, 1 : fmod) ~ _)(440) * hslider("gain", 0, 0, 1, 0.01);
 
 Let's do a more involved function example. We would like to create a function taking a monophonic effect and adding a dry/wet control.
+
+[**demo**]
 
     import("stdfaust.lib");
 
@@ -50,6 +62,8 @@ The drywet function is an example of higher order function. It takes a circuit a
 Pattern matching is a very powerful mechanism to algorithmically generate Faust circuits.
 Let's say that you want to describe a function to duplicate an circuit several times in parallel:
 
+[**demo**]
+
     duplicate(1,x) = x;
     duplicate(n,x) = x, duplicate(n-1,x);
 
@@ -58,12 +72,16 @@ Let's say that you want to describe a function to duplicate an circuit several t
 
 Please note that this last definition is a convenient alternative to the more verbose :
 
+[**demo**]
+
     duplicate = case {
                 (1,x) => x;
                 (n,x) => duplicate(n-1,x);
                 };
 
 Here is another example to count the number of elements of a list. Please note that we simulate lists using parallel composition : (1,2,3,5,7,11). The main limitation of this approach is that there is no empty list. Moreover lists of only one element are represented by this element :
+
+[**demo**]
 
     duplicate(1,x) = x;
     duplicate(n,x) = x, duplicate(n-1,x);
@@ -78,6 +96,8 @@ Please note that the order of pattern matching rules matters. The more specific 
 
 Here is a more involved example. We would like to create a reverse echo where echo increases in volume instead of decreasing. We can't use a simple feedback loop like for the regular echo, but we can build the circuit algorithimically using pattern matching
 
+[**demo**]
+
     import("stdfaust.lib");
 
     revecho (N,d,a) = _ <: R(N,0) :> _
@@ -90,11 +110,14 @@ Here is a more involved example. We would like to create a reverse echo where ec
     process = button("play") : pm.djembe(60, 0.3, 0.4, 1) : revecho(8, ma.SR/10, 0.7);
 
 ### iterations
+
 Faust offers a set of predefined iterators: `seq`, `par`, `sum` and `prod`. You can think of these iterators as some kind of for loops that can be used to build complex circuits.
 
 An iterator takes 3 parameters. The first one is the name of a variable, then we have the number of iterations, and finally the expression we want to iterate on.
 
 Let's do a simple equalizer by placing in sequence 5 peak equalizers
+
+[**demo**]
 
     declare name "equalizer";
     import("stdfaust.lib");
@@ -106,16 +129,6 @@ Let's do a simple equalizer by placing in sequence 5 peak equalizers
                             }
                         );
     process  =	no.noise : hgroup("Equalizer", seq(i, 5, peakeq(500+500*i)));
-
-
-### expressions
-
-To end this lesson we would like to come back on how expressions are written in Faust. Let say that we want to multiply a signal by 0.5. We can write this in four different, but equivalent, ways. We can use Faust core syntax, infix notation, prefix notation, or partial application.
-
-[SLIDE 50: type of notations]
-
-In this slide we see the different notations of a very simple example, and how they are related to the core syntax.
-
 
 
 

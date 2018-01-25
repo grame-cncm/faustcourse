@@ -1,4 +1,6 @@
+
 ## Lesson 4: UI Primitives
+
 - buttons and sliders
 - bargraphs
 - groups
@@ -38,6 +40,8 @@ Vertical, Horizontal and Tab groups provide a way to layout the widgets of a Use
 The `attach` primitive takes two input signals and produce as output signal the first input signal. The role of attach is to force the second input signal to be compiled with the first one. From a mathematical point of view `attach(x,y)` is equivalent to `1*x+0*y`, which is in turn equivalent to `x`, but it tells the compiler not to optimize-out `y`.
 
 To illustrate the role of `attach`, let say that we want to develop a mixer application with a vumeter for each input signals. Such vumeters can be easily coded in Faust using an envelop detector connected to a bargraph. The problem is that these envelop signals have no role in the output signals. Using `attach(x,vumeter(x))` one can tell the compiler that when x is compiled `vumeter(x)` should also be compiled.
+
+[**demo**]
 
     import("stdfaust.lib");
 
