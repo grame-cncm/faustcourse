@@ -44,9 +44,10 @@ for a wire is `_` underscore, because somehow it looks like a wire !
 
 Let's write a FAUST program that uses a wire to connect the audio input to the audio output:
 
-```
-process = _;
-```
+[**demo**]
+
+    process = _;
+
 
 Before running this program, make sure that you set the audio level to the
 minimum. Otherwise, you may damage your loudspeakers, or worse, your ears!
@@ -82,9 +83,10 @@ Let say that we have a stereo signal and that we want to keep only the right cha
 We can easily do that by placing in parallel a cut for the left channel and a wire for
 the right channel as in the following example:
 
-```
-process = !,_;
-```
+[**demo**]
+
+    process = !,_;
+
 
 [SLIDE 11: Keep only the right channel of a stereo cable]
 
@@ -93,9 +95,10 @@ Write a Faust program that represents a quadraphonic cable
 
 [SLIDE 12, QUIZ: A quadraphonic cable ?]
 
-```
-process = _,_,_,_;
-```
+[**demo**]
+
+    process = _,_,_,_;
+
 [SLIDE 13, ANSWER: A quadraphonic cable]
 
 ### Elementary Signal Generators
@@ -116,14 +119,15 @@ Note that the values of the samples of the signal produced by the number 1 in
 Faust are all 0 before time 0.
 
 #### User Interface elements
+
 [SLIDE 15: UI widgets]
+
 User Interface elements like _buttons_, _checkbox_ and _sliders_ are also elementary signal generators.
 They all generate a signal according to user's actions.
 
 A button generates a signal that is 0 when the button is not pressed and that is 1 while the button
 is pressed. Similarly, a checkbox generate a signal that is 0 when the checkbox is not checked and
 that is 1 while the checkbox is checked.
-
 
 
 A slider delivers a signal that ranges between a minimum and a maximum value. It has five parameters:
@@ -141,9 +145,10 @@ There are two kind of sliders:
 
 You can somehow listen to the sound produced by a slider (explain its artifact):
 
-```
-process = vslider("level", 0, -1, 1, 0.01);
-```
+[**demo**]
+
+    process = vslider("level", 0, -1, 1, 0.01);
+
 
 This example concludes Lesson 2. We have seen some very simples primitives like `wire` and `cut` as well as elementary signal generators. In the next lesson we will see more
 primitives, in particular arithmetic operations on signals.

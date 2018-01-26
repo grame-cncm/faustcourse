@@ -54,6 +54,8 @@ Environments are a way to group related definitions together in a separate dicti
 
 Let say we would like to group together several constants to reuse them later. We can write the following program:
 
+[**demo**]
+
     myconst = environment {
         PI = 3.14159265359;
         e = 2.71828182846;
@@ -63,6 +65,8 @@ Let say we would like to group together several constants to reuse them later. W
 
 ### With
 Environments local to an expression can be create using the `with {}` construction. You will often find this construction in Faust programs.
+
+[**demo**]
 
     import("stdfaust.lib");
 
@@ -78,6 +82,8 @@ Environments local to an expression can be create using the `with {}` constructi
 
 File imports allow to import definitions from other source files. Most Faust programs start with importing the "stdfaust.lib" library.
 
+[**demo**]
+
     import("stdfaust.lib");
 
 A Faust library itself is just a file with Faust code. The `import` statement  adds all the definitions of the imported file into the current program as if they were typed directly into the progam. (like an include in C or C++)
@@ -86,6 +92,8 @@ By convention Faust programs have the `.dsp` extension, while Faust libraries ha
 
 ### library("filename")
 If we look inside `stdfaust.lib` we can see that it imports in turn all the standard libraries using a bunch of `library("filename")` expressions.
+
+[**demo**]
 
     an = library("analyzers.lib");
     ba = library("basics.lib");

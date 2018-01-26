@@ -59,27 +59,28 @@ Primitives are the building blocks of Faust. You can think of them as the
 elementary components (resistors, transistors, etc.) of an electronic circuit.
 There are currently about 60 different primitives predefined in the language.
 
-_Syntax_ and _Semantics_ are two important concepts when learning any
-programming language. The _syntax_ is the rule for writing programs, while
-the semantics in the meaning ****
-and the semantics is the meaning.
-tells you how to write well-formed programs.
-The _semantics_ tells you the "meaning" of these programs. A good analogy could
-be the difference between the electronic circuit of a distortion and the distortion itself.
-
 [Slide 4: Syntax and Semantics; distortion circuit vs. distortion stombox TODO]
 
-In order to tell the meaning of a Faust program, we will use simple
-mathematical expressions on signals, that themselves are a function of time.
-For example, to express the fact that the
-`+` primitive in Faust adds 2 input signals, we can give the mathematical
-relationship between the output signal y(t) and the 2 input signals x0(t) and
-x1(t) by saying that y(t) = x0(t) + x1(t) where t is time.
+_Syntax_ and _Semantics_ are two important concepts when learning any
+programming language. The _syntax_ tells you how to write well-formed programs.
+The _semantics_ tells you the "meaning" of these programs, what it does when you
+run it.
+
+A good analogy could be the difference between the description of the electronic
+circuit of a distortion and, the distortion effect itself, how it transforms the
+sounds when you use it.
 
 [Slide 5: Code, Block-diagrams and Mathematical Semantics]
 
+In order to tell the meaning of a Faust program, we will use simple
+mathematical expressions on signals, that explain how the output signals are computed according to the input signals.
+
+For example, to express the fact that the `+` primitive in Faust adds 2 input signals,
+we can give the mathematical relationship between the output signal y(t) and the 2 input
+signals x0(t) and x1(t) by saying that y(t) = x0(t) + x1(t) where t is time.
+
 As you can see we basically have 3 different kinds of representation: the
-Faust program itself, its visual representation as a block diagram, and
+Faust program code itself, its visual representation as a block diagram, and
 its mathematical semantics as a function on signals. In this session, we will
 learn how to go from one representation to another. For example, if you have a
 block diagram, it's important to know how to code it in Faust. Usually when
