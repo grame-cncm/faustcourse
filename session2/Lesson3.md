@@ -130,11 +130,10 @@ We start by defining a `phasor`, a phase generator that produces a periodic sawt
 
 ### Log and Exponential
 
-Bla bla
-
 [Slide 24: Log and Exponential]
 
-Bla bla
+Log and exponential operations are often used to convert signals between linear and dB
+scales, or between piano key numbers and Hz.
 
 ### Min, Max and other functions (move after comparison)
 
