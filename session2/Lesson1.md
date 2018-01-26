@@ -24,7 +24,7 @@ textual language but programs have a straight forward graphical representation.
 the meaning of a program, what it does (as you will see Faust programs are
 like audio circuits that produce and transform audio signals).
 * You will learn also how to navigate between all these different representations.
-At the beginning, you will often start by drawing a block-diagram before coding
+For example at the beginning, you will often start by drawing a block-diagram before coding
 it in Faust.
 
 There are others things that you will have to learn like _libraries_,
