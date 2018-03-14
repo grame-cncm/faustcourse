@@ -56,7 +56,7 @@ synthesizer using this system.
 The Yamaha DX7 is a "legendary" synthesizer that "democratized" the use of
 digital sound synthesis in the 80's (<https://en.wikipedia.org/wiki/Yamaha_DX7>).
 The DX7 was using a set of 6 sine wave oscillators that could be patched in
-various ways to synthesize a broad range of sounds (see `sex7Patches.png`). 
+various ways to synthesize a broad range of sounds (see `dx7Patches.png`). 
 Additionally, each parameter of each oscillator (e.g., frequency,
 index of modulation, etc.) could be controlled using an envelope generator. 
 
@@ -65,7 +65,7 @@ have all the features of the original instrument, it should still be
 playable and musical. 
 
 As a first step, you should implement a generic DX7 oscillator module. The
-following "meta Faust code" should give you and idea of how such a module
+following "meta Faust code" should give you an idea of how such a module
 could look like:
 
 ```
